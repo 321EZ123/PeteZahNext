@@ -172,6 +172,7 @@ export default function Page() {
     };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function BlockHeadersCheckbox() {
     const [blockHeaders, setBlockHeaders] = useState(false);
 
@@ -246,7 +247,6 @@ export default function Page() {
         <div className="flex gap-2 mt-2! justify-around">
           <AntiCloseCheckbox />
           <AutoAboutBlankCheckbox />
-          <BlockHeadersCheckbox />
         </div>
       </Card>
     </CenteredDivPage>
