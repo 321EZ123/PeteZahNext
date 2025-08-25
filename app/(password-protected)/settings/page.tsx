@@ -79,7 +79,7 @@ export default function Page() {
         .from("profiles_private")
         .update({ auto_about_blank: newVal })
         .eq("id", user.id);
- 
+
       if (error) console.error(error);
     }
 
@@ -172,6 +172,62 @@ export default function Page() {
     };
   }
 
+  function BlockHeadersCheckbox() {
+    const [blockHeaders, setBlockHeaders] = useState(false);
+
+    async function updateBlockHeaders(newVal: boolean) {
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) return;
+
+      const { error } = await supabase
+        .from("profiles_private")
+        .update({ block_headers: newVal })
+        .eq("id", user.id);
+
+      if (error) console.error(error);
+    }
+
+    useEffect(() => {
+      const stored = localStorage.getItem("blockHeaders");
+      if (stored !== null) setBlockHeaders(stored === "true");
+
+      supabase.auth.getUser().then(async ({ data: { user } }) => {
+        if (!user) return;
+        const { data, error } = await supabase
+          .from("profiles_private")
+          .select("block_headers")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        if (data?.block_headers !== undefined) {
+          setBlockHeaders(data.block_headers);
+          setLocalStorage("blockHeaders", String(data.block_headers));
+        }
+      });
+    }, []);
+
+    const handleChange = async () => {
+      const newVal = !blockHeaders;
+      setBlockHeaders(newVal);
+      setLocalStorage("blockHeaders", String(newVal));
+      await updateBlockHeaders(newVal);
+    };
+
+    return (
+      <Checkbox
+        checked={blockHeaders}
+        onChange={handleChange}
+        label="Block Headers"
+        className="mt-2!"
+      />
+    );
+  }
+
   return (
     <CenteredDivPage className="p-[50px]!">
       <h1 className="text-3xl font-bold text-center sm:text-5xl md:text-6xl lg:text-7xl mb-4!">
@@ -190,6 +246,7 @@ export default function Page() {
         <div className="flex gap-2 mt-2! justify-around">
           <AntiCloseCheckbox />
           <AutoAboutBlankCheckbox />
+          <BlockHeadersCheckbox />
         </div>
       </Card>
     </CenteredDivPage>
