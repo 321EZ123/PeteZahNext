@@ -78,6 +78,9 @@ export function openAboutBlank() {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const rightClickHandler = (e: any) => e.preventDefault();
+
 export function applyGlobalSettings() {
   const storedTitle = localStorage.getItem("siteTitle");
   if (storedTitle) {
@@ -97,6 +100,13 @@ export function applyGlobalSettings() {
     window.addEventListener("beforeunload", beforeUnloadHandler);
   } else {
     window.removeEventListener("beforeunload", beforeUnloadHandler);
+  }
+
+  document.removeEventListener("contextmenu", rightClickHandler);
+  console.log("Removed right-click handler");
+  if (localStorage.getItem("disableRightClick") === "true") {
+    document.addEventListener("contextmenu", rightClickHandler);
+    console.log("Added right-click handler");
   }
 
   if (localStorage.getItem("autoAboutBlank") === "true") {
