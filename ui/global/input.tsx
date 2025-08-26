@@ -8,12 +8,12 @@ type CustomCheckboxProps = {
   className?: string;
 };
 
-const Checkbox: React.FC<CustomCheckboxProps> = ({
+export function Checkbox({
   checked,
   onChange,
   label,
   className,
-}) => {
+}: CustomCheckboxProps) {
   return (
     <label
       className={`flex items-center gap-2 text-lg cursor-pointer select-none w-fit border-2 border-[#0096FF] rounded-2xl p-3! ${className}`}
@@ -47,6 +47,29 @@ const Checkbox: React.FC<CustomCheckboxProps> = ({
       </span>
     </label>
   );
+}
+
+type CustomTextboxProps = {
+  value?: string;
+  onChange?: (content: string) => void;
+  placeholder?: string;
+  className?: string;
 };
 
-export { Checkbox };
+export function TextInput({
+  value,
+  onChange,
+  className,
+  placeholder
+}: CustomTextboxProps) {
+  return (
+    <input
+      onChange={(e) => onChange?.(e.target.value)}
+      className={`px-2! py-1! bg-black border-2 border-white rounded-2xl transition-colors duration-500 mx-2! ${className}`}
+      placeholder={placeholder}
+      value={value}
+      name=""
+      id=""
+    />
+  );
+}

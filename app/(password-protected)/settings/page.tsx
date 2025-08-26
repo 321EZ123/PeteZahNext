@@ -4,7 +4,7 @@ import { WipWarning } from "@/ui/wip/wip-page";
 import CenteredDivPage from "@/ui/global/centered-div-page";
 import { PrimaryButtonChildren } from "@/ui/global/buttons";
 import Card from "@/ui/global/card";
-import { Checkbox } from "@/ui/global/input";
+import { Checkbox, TextInput } from "@/ui/global/input";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { setLocalStorage } from "@/ui/settings-manager";
@@ -263,7 +263,10 @@ export default function Page() {
 
         if (data?.disable_right_click !== undefined) {
           setDisableRightClick(data.disable_right_click);
-          setLocalStorage("disableRightClick", String(data.disable_right_click));
+          setLocalStorage(
+            "disableRightClick",
+            String(data.disable_right_click)
+          );
         }
       });
     }, []);
@@ -282,6 +285,93 @@ export default function Page() {
         label="Disable Right-Click"
         className="mt-2!"
       />
+    );
+  }
+
+  interface tabConfig {
+    siteTitle?: string;
+    siteLogo?: string;
+  }
+
+  function TabConfigSettingsCard() {
+    const [tabConfig, setTabConfig] = useState<tabConfig>({});
+
+    async function updateTabConfig(newVal: tabConfig) {
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) return;
+
+      const { error } = await supabase
+        .from("profiles_private")
+        .update({ tab_config: newVal })
+        .eq("id", user.id);
+
+      if (error) console.error(error);
+    }
+
+    useEffect(() => {
+      const storedTitle = localStorage.getItem("siteTitle") || "PeteZah-Next";
+
+      setTabConfig((prev) => ({
+        ...prev,
+        siteTitle: storedTitle,
+      }));
+
+      supabase.auth.getUser().then(async ({ data: { user } }) => {
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from("profiles_private")
+          .select("tab_config")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        if (data?.tab_config !== undefined) {
+          setTabConfig(data.tab_config);
+          setLocalStorage(
+            "siteTitle",
+            data.tab_config.siteTitle || "PeteZah-Next"
+          );
+          setLocalStorage("siteLogo", data.tab_config.siteLogo || "");
+        }
+      });
+    }, []);
+
+    const handleChange = async (config = tabConfig) => {
+      setLocalStorage("siteTitle", String(config.siteTitle));
+      await updateTabConfig(config);
+    };
+
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        handleChange();
+      }, 500);
+
+      return () => clearTimeout(timeout);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tabConfig]);
+
+    return (
+      <Card>
+        <div className="flex items-center">
+          <p>Site title:</p>
+          <TextInput
+            placeholder={tabConfig.siteTitle || "PeteZah-Next"}
+            value={tabConfig.siteTitle ?? ""}
+            onChange={(content) => {
+              console.log(content);
+              setTabConfig({ ...tabConfig, siteTitle: content });
+              handleChange();
+            }}
+          />
+        </div>
+
+        {/*<input type="file" name="" id="" />*/}
+      </Card>
     );
   }
 
@@ -304,6 +394,14 @@ export default function Page() {
           <AntiCloseCheckbox />
           <AutoAboutBlankCheckbox />
           <DisableRightClickCheckbox />
+        </div>
+        <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl lg:text-4xl mt-4!">
+          Tab Configuration
+        </h2>
+        <hr className="my-4!" />
+        <p className="mb-2!">Customize your site title, favicon coming soon.</p>
+        <div className="flex gap-2 mt-2! justify-around items-center">
+          <TabConfigSettingsCard />
         </div>
       </Card>
     </CenteredDivPage>
