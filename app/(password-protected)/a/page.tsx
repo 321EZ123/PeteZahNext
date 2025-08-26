@@ -57,6 +57,11 @@ const apps = [
     imageUrl: "/storage/images/main/github.jpg",
   },
   {
+    label: "Sentinel",
+    url: "/static/embed.html#https://sentinel.home.kg/",
+    imageUrl: "/storage/images/main/sentinal.png",
+  },
+  {
     label: "Facebook",
     url: "/iframe.html?url=/storage/ag/a/facebook/",
     imageUrl: "/storage/ag/a/facebook/IMG_5332.jpeg",
