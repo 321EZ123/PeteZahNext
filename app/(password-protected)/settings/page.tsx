@@ -9,6 +9,26 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { setLocalStorage } from "@/ui/settings-manager";
 
+const presets = {
+  "google-classroom": {
+    siteTitle: "Google Classroom",
+    siteLogo: "https://ssl.gstatic.com/classroom/favicon.ico",
+  },
+  schoology: {
+    siteTitle: "Schoology",
+    siteLogo:
+      "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico",
+  },
+  google: {
+    siteTitle: "Google",
+    siteLogo: "https://www.google.com/favicon.ico",
+  },
+  pzn: {
+    siteTitle: "PeteZah-Next",
+    siteLogo: "/storage/images/logo-png-removebg-preview.png",
+  },
+};
+
 export default function Page() {
   const supabase = createClient();
 
@@ -294,7 +314,10 @@ export default function Page() {
   }
 
   function TabConfigSettingsCard() {
-    const [tabConfig, setTabConfig] = useState<tabConfig>( { siteLogo: String(localStorage.getItem("siteLogo") || null), siteTitle: String(localStorage.getItem("siteTitle") || null)} );
+    const [tabConfig, setTabConfig] = useState<tabConfig>({
+      siteLogo: String(localStorage.getItem("siteLogo") || null),
+      siteTitle: String(localStorage.getItem("siteTitle") || null),
+    });
 
     async function updateTabConfig(newVal: tabConfig) {
       const user = (await supabase.auth.getUser()).data.user;
@@ -359,6 +382,35 @@ export default function Page() {
     return (
       <Card className="flex flex-col gap-2! p-4!">
         <div className="flex items-center">
+          <p>Preset:</p>
+          <select
+            onChange={(e) => {
+              const key = e.target.value as keyof typeof presets | "custom";
+              if (key !== "custom") {
+                setTabConfig(presets[key]);
+                handleChange();
+              }
+            }}
+            className="px-2! py-1! ml-2! bg-black border-2 border-white rounded-2xl hover:bg-gray-800 transition-colors duration-500"
+          >
+            <option className="bg-black" value="custom">
+              Custom
+            </option>
+            <option className="bg-black" value="pzn">
+              PeteZah-Next
+            </option>
+            <option className="bg-black" value="google-classroom">
+              Google Classroom
+            </option>
+            <option className="bg-black" value="google">
+              Google
+            </option>
+            <option className="bg-black" value="schoology">
+              Schoology
+            </option>
+          </select>
+        </div>
+        <div className="flex items-center">
           <p>Site title:</p>
           <TextInput
             placeholder={tabConfig.siteTitle || "PeteZah-Next"}
@@ -406,9 +458,12 @@ export default function Page() {
         </h2>
         <hr className="my-4!" />
         <p className="mb-2!">Control cloaking behavior to enhance privacy.</p>
-        <PrimaryButtonChildren onClick={openAboutBlank}>
-          Open in about:blank
-        </PrimaryButtonChildren>
+        <div className="w-full flex justify-center">
+          <PrimaryButtonChildren onClick={openAboutBlank}>
+            Open in about:blank
+          </PrimaryButtonChildren>
+        </div>
+
         <div className="flex gap-2 mt-2! justify-around items-center">
           <AntiCloseCheckbox />
           <AutoAboutBlankCheckbox />
