@@ -81,35 +81,14 @@ export function openAboutBlank() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const rightClickHandler = (e: any) => e.preventDefault();
 
-const updateFavicon = (icon: string) => {
-  if (icon === "" || icon == "undefined") return;
-  document.querySelectorAll<HTMLLinkElement>('link[rel="icon"], link[rel="shortcut icon"]').forEach(el => el.remove());
-
-  const favicon = document.createElement("link");
-  favicon.rel = "icon";
-  favicon.type = "image/x-icon";
-  favicon.href = icon;
-  document.head.appendChild(favicon);
-
-  const shortcutIcon = document.createElement("link");
-  shortcutIcon.rel = "shortcut icon";
-  shortcutIcon.type = "image/x-icon";
-  shortcutIcon.href = icon;
-  document.head.appendChild(shortcutIcon);
-};
-
 export function applyGlobalSettings() {
-  localStorage.setItem("settingsUpdated", Date.now().toString());
-
   const storedTitle = localStorage.getItem("siteTitle");
   if (storedTitle) {
     document.title = storedTitle;
   } else {
     document.title = "PeteZah-Next";
   }
-
-  const savedLogo = localStorage.getItem("siteLogo");
-  if (savedLogo) updateFavicon(savedLogo);
+  localStorage.setItem("settingsUpdated", Date.now().toString());
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const beforeUnloadHandler = (e: any) => {
@@ -124,8 +103,10 @@ export function applyGlobalSettings() {
   }
 
   document.removeEventListener("contextmenu", rightClickHandler);
+  console.log("Removed right-click handler");
   if (localStorage.getItem("disableRightClick") === "true") {
     document.addEventListener("contextmenu", rightClickHandler);
+    console.log("Added right-click handler");
   }
 
   if (localStorage.getItem("autoAboutBlank") === "true") {
