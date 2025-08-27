@@ -263,10 +263,7 @@ export default function Page() {
 
         if (data?.disable_right_click !== undefined) {
           setDisableRightClick(data.disable_right_click);
-          setLocalStorage(
-            "disableRightClick",
-            String(data.disable_right_click)
-          );
+          setLocalStorage("disableRightClick", String(data.disable_right_click));
         }
       });
     }, []);
@@ -394,14 +391,7 @@ export default function Page() {
           <AutoAboutBlankCheckbox />
           <DisableRightClickCheckbox />
         </div>
-        <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl lg:text-4xl mt-4!">
-          Tab Configuration
-        </h2>
-        <hr className="my-4!" />
-        <p className="mb-2!">Customize your site title, favicon coming soon.</p>
-        <div className="flex gap-2 mt-2! justify-around items-center">
-          <TabConfigSettingsCard />
-        </div>
+        <TabConfigSettingsCard />
       </Card>
     </CenteredDivPage>
   );
