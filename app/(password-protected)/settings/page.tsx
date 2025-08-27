@@ -294,7 +294,7 @@ export default function Page() {
   }
 
   function TabConfigSettingsCard() {
-    const [tabConfig, setTabConfig] = useState<tabConfig>({});
+    const [tabConfig, setTabConfig] = useState<tabConfig>( { siteLogo: String(localStorage.getItem("siteLogo") || null), siteTitle: String(localStorage.getItem("siteTitle") || null)} );
 
     async function updateTabConfig(newVal: tabConfig) {
       const user = (await supabase.auth.getUser()).data.user;
@@ -336,14 +336,15 @@ export default function Page() {
             "siteTitle",
             data.tab_config.siteTitle || "PeteZah-Next"
           );
-          setLocalStorage("siteLogo", data.tab_config.siteLogo || "");
+          setLocalStorage("siteLogo", data.tab_config.site_logo || "");
         }
       });
     }, []);
 
-    const handleChange = async (config = tabConfig) => {
-      setLocalStorage("siteTitle", String(config.siteTitle));
-      await updateTabConfig(config);
+    const handleChange = async () => {
+      setLocalStorage("siteTitle", String(tabConfig.siteTitle));
+      setLocalStorage("siteLogo", String(tabConfig.siteLogo));
+      await updateTabConfig(tabConfig);
     };
 
     useEffect(() => {
@@ -356,21 +357,39 @@ export default function Page() {
     }, [tabConfig]);
 
     return (
-      <Card>
+      <Card className="flex flex-col gap-2! p-4!">
         <div className="flex items-center">
           <p>Site title:</p>
           <TextInput
             placeholder={tabConfig.siteTitle || "PeteZah-Next"}
             value={tabConfig.siteTitle ?? ""}
             onChange={(content) => {
-              console.log(content);
               setTabConfig({ ...tabConfig, siteTitle: content });
               handleChange();
             }}
           />
         </div>
+        <div>
+          <input
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
 
-        {/*<input type="file" name="" id="" />*/}
+              const reader = new FileReader();
+              reader.onload = (ev) => {
+                const base64 = ev.target?.result as string;
+                setTabConfig({ ...tabConfig, siteLogo: base64 });
+                handleChange();
+              };
+              reader.readAsDataURL(file);
+            }}
+            type="file"
+            name=""
+            id=""
+            accept="image/*"
+            className="file:bg-black file:rounded-2xl file:px-2! file:py-1! file:border-2 file:border-white file:mr-2!"
+          />
+        </div>
       </Card>
     );
   }
