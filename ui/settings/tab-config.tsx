@@ -123,7 +123,7 @@ export default function TabConfigSettingsCard() {
         <TextInput
           placeholder="PeteZah-Next"
           value={tabConfig.siteTitle}
-          onChange={(content) =>
+          onChange={(content: string) =>
             setTabConfig((prev) => ({ ...prev, siteTitle: content }))
           }
         />

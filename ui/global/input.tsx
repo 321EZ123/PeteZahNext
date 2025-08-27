@@ -50,3 +50,28 @@ const Checkbox: React.FC<CustomCheckboxProps> = ({
 };
 
 export { Checkbox };
+
+type CustomTextboxProps = {
+  value?: string;
+  onChange?: (content: string) => void;
+  placeholder?: string;
+  className?: string;
+};
+
+export function TextInput({
+  value,
+  onChange,
+  className,
+  placeholder
+}: CustomTextboxProps) {
+  return (
+    <input
+      onChange={(e) => onChange?.(e.target.value)}
+      className={`px-2! py-1! bg-black border-2 border-white rounded-2xl transition-colors duration-500 mx-2! ${className}`}
+      placeholder={placeholder}
+      value={value}
+      name=""
+      id=""
+    />
+  );
+}
