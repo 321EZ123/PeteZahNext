@@ -4,6 +4,26 @@ import Card from "../global/card";
 import { TextInput } from "@/ui/global/input";
 import { setLocalStorage } from "@/ui/settings-manager";
 
+const presets = {
+  "google-classroom": {
+    siteTitle: "Google Classroom",
+    siteLogo: "https://ssl.gstatic.com/classroom/favicon.ico",
+  },
+  schoology: {
+    siteTitle: "Schoology",
+    siteLogo:
+      "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico",
+  },
+  google: {
+    siteTitle: "Google",
+    siteLogo: "https://www.google.com/favicon.ico",
+  },
+  pzn: {
+    siteTitle: "PeteZah-Next",
+    siteLogo: "/storage/images/logo-png-removebg-preview.png",
+  },
+};
+
 interface tabConfig {
   siteTitle?: string;
   siteLogo?: string;
@@ -83,6 +103,36 @@ export function TabConfigSettingsCard() {
   return (
     <Card>
       <div className="flex items-center">
+        <p>Preset:</p>
+        <select
+          onChange={(e) => {
+            const key = e.target.value as keyof typeof presets | "custom";
+            if (key !== "custom") {
+              setTabConfig(presets[key]);
+              handleTitleChange(presets[key]);
+              handleLogoChange(presets[key].siteLogo);
+            }
+          }}
+          className="px-2! py-1! ml-2! bg-black border-2 border-white rounded-2xl hover:bg-gray-800 transition-colors duration-500"
+        >
+          <option className="bg-black" value="custom">
+            Custom
+          </option>
+          <option className="bg-black" value="pzn">
+            PeteZah-Next
+          </option>
+          <option className="bg-black" value="google-classroom">
+            Google Classroom
+          </option>
+          <option className="bg-black" value="google">
+            Google
+          </option>
+          <option className="bg-black" value="schoology">
+            Schoology
+          </option>
+        </select>
+      </div>
+      <div className="flex items-center mt-2!">
         <p>Site title:</p>
         <TextInput
           placeholder={tabConfig.siteTitle || "PeteZah-Next"}
