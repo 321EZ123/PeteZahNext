@@ -103,7 +103,6 @@ export function TabConfigSettingsCard() {
             const reader = new FileReader();
             reader.onload = (ev) => {
               const base64 = ev.target?.result as string;
-              console.log("Read file as base64:", base64);
               setTabConfig({ ...tabConfig, siteLogo: base64 });
               handleLogoChange(base64);
             };

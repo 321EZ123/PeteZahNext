@@ -29,10 +29,7 @@ export const metadata: Metadata = {
   other: {
     "benrogo:index": "index",
     "benrogo:uvpath": "/static/uv/uv.config.js",
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
+  }
 };
 
 export default function RootLayout({
@@ -45,7 +42,6 @@ export default function RootLayout({
       <SupabaseAuthListener />
       <Head>
         <title key="title">PeteZah-Next</title>
-        <link rel="icon" href="/favicon.ico" />
         {/* Fonts */}
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"

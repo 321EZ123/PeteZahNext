@@ -82,7 +82,6 @@ export function openAboutBlank() {
 const rightClickHandler = (e: any) => e.preventDefault();
 
 function setFavicon(href: string, type?: string) {
-  console.log("Setting favicon to:", href);
 
   if (href === "" || href == "undefined") return;
   if (typeof document === "undefined") return;
@@ -101,8 +100,6 @@ function setFavicon(href: string, type?: string) {
   link.rel = "icon";
   if (type) link.type = type;
   else link.removeAttribute("type");
-
-  console.log(link)
 
   link.href = href;
 }
