@@ -840,7 +840,13 @@ export default function Page() {
                           {" "}
                           <button
                             onClick={() => {
-                              addSongToQueue(trackData);
+                              // i know this logic is stupid but its because setState is async
+                              if (queue?.length == 0) {
+                                addSongToQueue(trackData);
+                                setCurrentTrackIndex(0);
+                              } else {
+                                addSongToQueue(trackData);
+                              }
                             }}
                             className="w-full h-full"
                           >
