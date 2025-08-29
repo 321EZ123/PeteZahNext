@@ -81,14 +81,39 @@ export function openAboutBlank() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const rightClickHandler = (e: any) => e.preventDefault();
 
+function setFavicon(href: string, type?: string) {
+
+  if (href === "" || href == "undefined") return;
+  if (typeof document === "undefined") return;
+
+  let link = document.querySelector<HTMLLinkElement>(
+    'link[rel="icon"]'
+  );
+
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    link.setAttribute("data-dynamic-favicon", "true");
+    document.head.appendChild(link);
+  }
+
+  link.rel = "icon";
+  if (type) link.type = type;
+  else link.removeAttribute("type");
+
+  link.href = href;
+}
+
 export function applyGlobalSettings() {
+  localStorage.setItem("settingsUpdated", Date.now().toString());
+  
+  setFavicon(localStorage.getItem("siteLogo") || "/favicon.ico");
   const storedTitle = localStorage.getItem("siteTitle");
   if (storedTitle) {
     document.title = storedTitle;
   } else {
     document.title = "PeteZah-Next";
   }
-  localStorage.setItem("settingsUpdated", Date.now().toString());
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const beforeUnloadHandler = (e: any) => {
@@ -103,10 +128,8 @@ export function applyGlobalSettings() {
   }
 
   document.removeEventListener("contextmenu", rightClickHandler);
-  console.log("Removed right-click handler");
   if (localStorage.getItem("disableRightClick") === "true") {
     document.addEventListener("contextmenu", rightClickHandler);
-    console.log("Added right-click handler");
   }
 
   if (localStorage.getItem("autoAboutBlank") === "true") {
