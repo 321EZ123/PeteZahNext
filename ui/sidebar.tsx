@@ -14,6 +14,8 @@ import { BsGrid3X3GapFill, BsGear } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { KeyIcon } from "@heroicons/react/24/outline";
+import { MdOutlineFeedback } from "react-icons/md";
+import { GrUpdate } from "react-icons/gr";
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -64,17 +66,17 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           !sidebarToggled
             ? "translate-x-[8px] items-center! aspect-square!"
             : "w-[90%] ml-[16px]!",
-          "h-[50px] flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
+          "xl:h-[50px] flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
           isActiveTab(url, altLinks) && "bg-white text-black"
         )}
       >
         <button type="button" className="w-full h-full disable-no-m-p">
           <div
             className={clsx(
-              "box-content flex w-full h-full items-center disable-no-m-p ml-[4px]!"
+              "box-content flex w-full h-full items-center", !sidebarToggled ? "justify-center" : "pl-4!"
             )}
           >
-            <Icon className="z-10 flex items-center justify-center w-6 h-6 ml-2!" />
+            <Icon className="z-10 flex items-center justify-center w-4 h-4 xl:w-6 xl:h-6" />
             <span
               className={clsx(
                 "nav-label disable-no-m-p transition-all",
@@ -146,7 +148,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             )}
           />
 
-          <nav className="h-full sidebar-nav">
+          <nav className="h-full sidebar-nav overflow-y-auto">
             <ul
               className={clsx(
                 "transition-all my-2 flex flex-col",
@@ -210,6 +212,16 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                 title="About"
                 Icon={FaRegCircleQuestion}
                 url="/about"
+              />
+              <NavbarLink
+                title="Feedback"
+                Icon={MdOutlineFeedback}
+                url="/feedback"
+              />
+              <NavbarLink
+                title="Changelog"
+                Icon={GrUpdate}
+                url="/changelog"
               />
             </ul>
           </nav>
