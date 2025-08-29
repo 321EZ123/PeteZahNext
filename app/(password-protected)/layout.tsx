@@ -63,27 +63,6 @@ export default function RootLayout({
               </CookiesProvider>
             </Suspense>
           </SettingsProvider>
-
-          {/* changelog <Script id="changelogfy-config">
-            {`
-            let CLF_config = {
-              app_id: "03599c7b-79db-4651-8efa-90e18b54dabf",
-              data: {
-                  user_id: '123456',
-                  user_email: 'user@email.com',
-                  user_name: 'User Name',
-                  custom_data: {
-                      'JobRole': 'CEO',
-                      'Plan': 'Pro',
-                      'teamMates': '4',
-                      'MonthlySpend': '50 USD'
-                  }
-              }
-            };
-          `}
-          </Script>
-          <Script async src="https://widget.changelogfy.com/index.js" /> */}
-
           <Analytics />
         </Cloak>
       </div>
