@@ -66,7 +66,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           !sidebarToggled
             ? "translate-x-[8px] items-center! aspect-square!"
             : "w-[90%] ml-[16px]!",
-          "xl:h-[50px] flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
+          "xl:h-[45px] xl:w-[45px] flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
           isActiveTab(url, altLinks) && "bg-white text-black"
         )}
       >
@@ -76,7 +76,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
               "box-content flex w-full h-full items-center", !sidebarToggled ? "justify-center" : "pl-4!"
             )}
           >
-            <Icon className="z-10 flex items-center justify-center w-4 h-4 xl:w-6 xl:h-6" />
+            <Icon className="z-10 flex items-center justify-center w-4 h-4 xl:w-5 xl:h-5" />
             <span
               className={clsx(
                 "nav-label disable-no-m-p transition-all",
