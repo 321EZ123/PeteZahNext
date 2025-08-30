@@ -100,6 +100,7 @@ export default function Page() {
               placeholder="Search for your favorite game..."
             />
             <select
+              title="Filter by Category"
               id="filter"
               name="filter"
               value={filterCategory}

@@ -10,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" style={{ width: "100%", minHeight: "100vh" }} className="w-full min-h-screen">
+    <html lang="en" className="w-full min-h-screen">
       <head>
         {/* Google Analytics */}
         <Script

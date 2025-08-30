@@ -105,6 +105,7 @@ export function TabConfigSettingsCard() {
       <div className="flex items-center">
         <p>Preset:</p>
         <select
+          title="Select a preset configuration"
           onChange={(e) => {
             const key = e.target.value as keyof typeof presets | "custom";
             if (key !== "custom") {
@@ -146,6 +147,7 @@ export function TabConfigSettingsCard() {
       <div className="flex items-center mt-2!">
         <p>Site favicon:</p>
         <input
+          placeholder="Upload a favicon"
           onChange={(e) => {
             const file = e.target.files?.[0];
             if (!file) return;
