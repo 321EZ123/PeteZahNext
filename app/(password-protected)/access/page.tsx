@@ -38,7 +38,7 @@ export default function Page() {
   return (
     <div className="flex items-center relative justify-center h-[100%]">
       <MarqueeBg />
-      <div className="max-w-[80%] p-[50px]! rounded-[12px] border-2 border-[#0096FF] backdrop-blur-md backdrop-filter backdrop-opacity-50 bg-[#0A1D37] overflow-scroll">
+      <div className="max-w-[80%] p-[50px]! rounded-[12px] border-2 border-[#0096FF] backdrop-blur-md backdrop-filter backdrop-opacity-50 bg-[#0A1D37] overflow-auto">
         <h1 className="text-3xl text-center">Manage Your Passwords</h1>
         <br />
         <h2 className="text-gray-300">
