@@ -148,7 +148,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             )}
           />
 
-          <nav className="h-full sidebar-nav overflow-y-auto">
+          <nav className="h-full overflow-y-auto sidebar-nav">
             <ul
               className={clsx(
                 "transition-all my-2 flex flex-col",
@@ -204,7 +204,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                 url="/p"
               />
               <NavbarLink
-                title="Settings (WIP)"
+                title="Settings"
                 Icon={BsGear}
                 url="/settings"
               />

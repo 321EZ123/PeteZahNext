@@ -1,6 +1,5 @@
 "use client";
 
-import { WipWarning } from "@/ui/wip/wip-page";
 import CenteredDivPage from "@/ui/global/centered-div-page";
 import { PrimaryButtonChildren } from "@/ui/global/buttons";
 import Card from "@/ui/global/card";
@@ -291,10 +290,9 @@ export default function Page() {
 
   return (
     <CenteredDivPage className="p-[50px]!">
-      <h1 className="text-3xl font-bold text-center sm:text-5xl md:text-6xl lg:text-7xl mb-4!">
+      <h1 className="text-3xl font-bold text-center sm:text-5xl md:text-6xl lg:text-7xl mb-8!">
         Settings
       </h1>
-      <WipWarning />
       <Card className="mt-4! w-full">
         <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl lg:text-4xl mb-2!">
           Cloaking
