@@ -58,7 +58,7 @@ export default function Topbar() {
               alt="PeteZah"
             />
             <p className="ml-2! hidden sm:block text-white font-bold">
-              {topbarToggled ? "Close" : "Menu"}
+              {topbarToggled ? "Menu" : "Close"}
             </p>
           </div>
         </div>
