@@ -64,7 +64,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         onClick={handleClick}
         className={clsx(
           !sidebarToggled
-            ? "translate-x-[8px] items-center! aspect-square!"
+            ? "items-center! aspect-square!"
             : "w-[90%] ml-[16px]!",
           "xl:h-[45px] xl:w-[45px] flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
           isActiveTab(url, altLinks) && "bg-white text-black"
@@ -151,8 +151,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           <nav className="h-full overflow-y-auto sidebar-nav">
             <ul
               className={clsx(
-                "transition-all my-2 flex flex-col",
-                sidebarToggled ? "pr-2!" : "pr-[20%]!"
+                "transition-all my-2 flex flex-col items-center",
+                sidebarToggled && "pr-2!"
               )}
             >
               <NavbarLink
@@ -194,8 +194,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
             <ul
               className={clsx(
-                "transition-all my-2 flex flex-col",
-                sidebarToggled ? "pr-2!" : "pr-[20%]!"
+                "transition-all my-2 flex flex-col items-center",
+                sidebarToggled && "pr-2!"
               )}
             >
               <NavbarLink
