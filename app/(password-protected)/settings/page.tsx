@@ -299,9 +299,11 @@ export default function Page() {
         </h2>
         <hr className="my-4!" />
         <p className="mb-2!">Control cloaking behavior to enhance privacy.</p>
-        <PrimaryButtonChildren onClick={openAboutBlank}>
-          Open in about:blank
-        </PrimaryButtonChildren>
+        <div className="flex items-center justify-center w-full my-2!">
+          <PrimaryButtonChildren onClick={openAboutBlank}>
+            Open in about:blank
+          </PrimaryButtonChildren>
+        </div>
         <div className="flex gap-2 mt-2! justify-around items-center">
           <AntiCloseCheckbox />
           <AutoAboutBlankCheckbox />
