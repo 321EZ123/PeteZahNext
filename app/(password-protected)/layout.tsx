@@ -4,6 +4,7 @@ import Particles from "@/ui/particles";
 import Sidebar from "@/ui/sidebar";
 import { Suspense } from "react";
 import { SidebarProvider } from "@/context/sidebar-context";
+import { TopbarProvider } from "@/context/topbar-content";
 import { Analytics } from "@vercel/analytics/next";
 import AntiScreenshotOverlay from "@/ui/anti-screenshot-overlay";
 import { Cloak } from "@/ui/cloak";
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   other: {
     "benrogo:index": "index",
     "benrogo:uvpath": "/static/uv/uv.config.js",
-  }
+  },
 };
 
 export default function RootLayout({
@@ -55,13 +56,15 @@ export default function RootLayout({
           <AntiScreenshotOverlay />
           <Particles />
           <SettingsProvider>
-            <Suspense>
-              <CookiesProvider>
-                <SidebarProvider>
-                  <Sidebar>{children}</Sidebar>
-                </SidebarProvider>
-              </CookiesProvider>
-            </Suspense>
+            <TopbarProvider>
+              <Suspense>
+                <CookiesProvider>
+                  <SidebarProvider>
+                    <Sidebar>{children}</Sidebar>
+                  </SidebarProvider>
+                </CookiesProvider>
+              </Suspense>
+            </TopbarProvider>
           </SettingsProvider>
           <Analytics />
         </Cloak>

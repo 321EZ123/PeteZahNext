@@ -288,36 +288,51 @@ export default function Page() {
     );
   }
 
+  function SettingsContent() {
+    return (
+      <>
+        <h1 className="text-3xl font-bold text-center sm:text-5xl md:text-6xl lg:text-7xl mb-8!">
+          Settings
+        </h1>
+        <Card className="mt-4! w-full">
+          <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl lg:text-4xl mb-2!">
+            Cloaking
+          </h2>
+          <hr className="my-4!" />
+          <p className="mb-2!">Control cloaking behavior to enhance privacy.</p>
+          <div className="flex items-center justify-center w-full my-2!">
+            <PrimaryButtonChildren onClick={openAboutBlank}>
+              Open in about:blank
+            </PrimaryButtonChildren>
+          </div>
+          <div className="flex gap-2 mt-2! justify-around items-center flex-wrap">
+            <AntiCloseCheckbox />
+            <AutoAboutBlankCheckbox />
+            <DisableRightClickCheckbox />
+          </div>
+          <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl lg:text-4xl mt-4!">
+            Tab Configuration
+          </h2>
+          <hr className="my-4!" />
+          <p className="mb-2!">
+            Customize your site title, favicon coming soon.
+          </p>
+          <div className="flex gap-2 mt-2! justify-around items-center">
+            <TabConfigSettingsCard />
+          </div>
+        </Card>
+      </>
+    );
+  }
+
   return (
-    <CenteredDivPage className="p-[50px]!">
-      <h1 className="text-3xl font-bold text-center sm:text-5xl md:text-6xl lg:text-7xl mb-8!">
-        Settings
-      </h1>
-      <Card className="mt-4! w-full">
-        <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl lg:text-4xl mb-2!">
-          Cloaking
-        </h2>
-        <hr className="my-4!" />
-        <p className="mb-2!">Control cloaking behavior to enhance privacy.</p>
-        <div className="flex items-center justify-center w-full my-2!">
-          <PrimaryButtonChildren onClick={openAboutBlank}>
-            Open in about:blank
-          </PrimaryButtonChildren>
-        </div>
-        <div className="flex gap-2 mt-2! justify-around items-center">
-          <AntiCloseCheckbox />
-          <AutoAboutBlankCheckbox />
-          <DisableRightClickCheckbox />
-        </div>
-        <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl lg:text-4xl mt-4!">
-          Tab Configuration
-        </h2>
-        <hr className="my-4!" />
-        <p className="mb-2!">Customize your site title, favicon coming soon.</p>
-        <div className="flex gap-2 mt-2! justify-around items-center">
-          <TabConfigSettingsCard />
-        </div>
-      </Card>
-    </CenteredDivPage>
+    <>
+      <CenteredDivPage className="p-[50px]! max-h-[80%] overflow-y-auto hidden md:flex md:flex-col">
+        <SettingsContent />
+      </CenteredDivPage>
+      <div className="p-[20px]! md:hidden fixed top-0 left-0 w-full h-full overflow-y-auto bg-[#0A1D37] text-white">
+        <SettingsContent />
+      </div>
+    </>
   );
 }
