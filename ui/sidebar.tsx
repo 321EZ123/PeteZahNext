@@ -1,12 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import clsx from "clsx";
+
 import { useSidebar } from "@/context/sidebar-context";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import Link from "next/link";
 import Image from "next/image";
+
 import { GoHome, GoChevronLeft } from "react-icons/go";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { SlGlobe } from "react-icons/sl";
@@ -16,6 +19,8 @@ import { FaRegCircleQuestion } from "react-icons/fa6";
 import { KeyIcon } from "@heroicons/react/24/outline";
 import { MdOutlineFeedback } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
+
+import Topbar from "./topbar";
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -95,6 +100,11 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
   return (
     mounted && (
       <div className="flex w-screen h-screen">
+        {/* topbar */}
+
+        <Topbar />
+
+        {/* sidebar */}
         <aside
           className={clsx(
             "sidebar hidden md:block h-full md:ml-[16px]! md:mt-[16px]! md:mb-[16px]! md:h-[calc(100vh-32px)]! md:rounded-[16px]! border-white border-r-2 md:border-2 transition-all duration-400",

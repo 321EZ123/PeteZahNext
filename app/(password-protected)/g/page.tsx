@@ -156,7 +156,7 @@ export default function Page() {
               ) : (
                 <div className="flex items-center justify-center w-full h-full">
                   <p className="px-2! py-1! bg-black border-2 border-white rounded-2xl">
-                    Loading games
+                    Loading games...
                   </p>
                 </div>
               )}

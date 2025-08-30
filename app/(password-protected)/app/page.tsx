@@ -79,30 +79,35 @@ export default function Page() {
         <MarqueeBg />
         <div className="z-1 h-[90%] w-[90%] border-[#0096FF] bg-[#0A1D37] border-2 rounded-2xl p-2! flex flex-col">
           <iframe
+            title="app-iframe"
             className="flex-1 w-full bg-white h-max rounded-t-2xl"
             src={`${url}`}
             ref={iframeRef}
           ></iframe>
           <div className="bg-black h-[100px] w-full rounded-b-2xl border-white border-t-2 flex justify-around items-center">
             <button
+              title="refresh iframe"
               onClick={refreshIframe}
               className="border-2 border-gray-400 rounded-full hover:bg-gray-900 p-4! hover:scale-110 transition-all duration-500"
             >
               <ArrowPathIcon width={30} height={30} />
             </button>
             <button
+              title="fullscreen"
               onClick={toggleFullscreen}
               className="border-2 border-gray-400 rounded-full hover:bg-gray-900 p-4! hover:scale-110 transition-all duration-500"
             >
               <BsFullscreen size={20} />
             </button>
             <button
+              title="open in new tab"
               onClick={openIframeSource}
               className="border-2 border-gray-400 rounded-full hover:bg-gray-900 p-4! hover:scale-110 transition-all duration-500"
             >
               <ArrowTopRightOnSquareIcon width={30} height={30} />
             </button>
             <button
+              title="Discord"
               onClick={DCMessage}
               className="border-2 border-gray-400 rounded-full hover:bg-gray-900 p-4! hover:scale-110 transition-all duration-500"
             >
