@@ -64,9 +64,9 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         onClick={handleClick}
         className={clsx(
           !sidebarToggled
-            ? "items-center! aspect-square!"
+            ? "items-center! aspect-square! xl:w-[45px]!"
             : "w-[90%] ml-[16px]!",
-          "xl:h-[45px] xl:w-[45px] flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
+          "h-[35px]! xl:h-[45px]! flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
           isActiveTab(url, altLinks) && "bg-white text-black"
         )}
       >
@@ -97,7 +97,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       <div className="flex w-screen h-screen">
         <aside
           className={clsx(
-            "sidebar h-full md:ml-[16px]! md:mt-[16px]! md:mb-[16px]! md:h-[calc(100vh-32px)]! md:rounded-[16px]! border-white border-r-2 md:border-2 transition-all duration-400",
+            "sidebar hidden md:block h-full md:ml-[16px]! md:mt-[16px]! md:mb-[16px]! md:h-[calc(100vh-32px)]! md:rounded-[16px]! border-white border-r-2 md:border-2 transition-all duration-400",
             sidebarToggled ? "sidebar-expanded w-[270px]" : "collapsed"
           )}
         >

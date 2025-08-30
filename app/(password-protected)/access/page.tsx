@@ -38,7 +38,7 @@ export default function Page() {
   return (
     <div className="flex items-center relative justify-center h-[100%]">
       <MarqueeBg />
-      <div className="max-w-[80%] p-[50px]! rounded-[12px] border-2 border-[#0096FF] backdrop-blur-md backdrop-filter backdrop-opacity-50 bg-[#0A1D37]">
+      <div className="max-w-[80%] p-[50px]! rounded-[12px] border-2 border-[#0096FF] backdrop-blur-md backdrop-filter backdrop-opacity-50 bg-[#0A1D37] overflow-scroll">
         <h1 className="text-3xl text-center">Manage Your Passwords</h1>
         <br />
         <h2 className="text-gray-300">
@@ -80,7 +80,7 @@ export default function Page() {
               })()}
             </div>
 
-            <table className="w-full my-4 border border-collapse border-white">
+            <table className="max-w-[90%]! my-4 border border-collapse border-white">
               <thead className="bg-[#1f2b47] text-white">
                 <tr className="even:bg-[#2c3b5a] border border-white">
                   <th className="px-4! py-2! font-semibold text-left border border-white">
