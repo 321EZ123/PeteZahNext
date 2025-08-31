@@ -315,7 +315,7 @@ export default function Page() {
           </h2>
           <hr className="my-4!" />
           <p className="mb-2!">
-            Customize your site title, favicon coming soon.
+            Customize your site title and favicon.
           </p>
           <div className="flex gap-2 mt-2! justify-around items-center">
             <TabConfigSettingsCard />
