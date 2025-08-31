@@ -27,10 +27,36 @@ const presets = {
     siteLogo: "https://canvas.instructure.com/favicon.ico",
   },
   ixl: {
-    siteTitle: "IXL | Math, Language Arts, Science, Social Studies, and Spanish",
+    siteTitle:
+      "IXL | Math, Language Arts, Science, Social Studies, and Spanish",
     siteLogo: "https://www.ixl.com/ixl-favicon.png",
   },
-
+  googleDocs: {
+    siteTitle: "Google Docs",
+    siteLogo:
+      "https://ssl.gstatic.com/docs/documents/images/kix-favicon-2023q4.ico",
+  },
+  googleSlides: {
+    siteTitle: "Google Slides",
+    siteLogo:
+      "https://ssl.gstatic.com/docs/presentations/images/favicon-2023q4.ico",
+  },
+  googleSheets: {
+    siteTitle: "Google Sheets",
+    siteLogo: "//ssl.gstatic.com/docs/spreadsheets/spreadsheets_2023q4.ico",
+  },
+  gmail: {
+    siteTitle: "Inbox (208) - Gmail",
+    siteLogo: "https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico",
+  },
+  membean: {
+    siteTitle: "Membean",
+    siteLogo: "https://www.membean.com/favicon.ico",
+  },
+  noRedInk: {
+    siteTitle: "NoRedInk",
+    siteLogo: "https://www.noredink.com/favicon.ico",
+  },
 };
 
 interface tabConfig {
@@ -131,20 +157,38 @@ export function TabConfigSettingsCard() {
           <option className="bg-black" value="pzn">
             PeteZah-Next
           </option>
-          <option className="bg-black" value="googleClassroom">
-            Google Classroom
-          </option>
-          <option className="bg-black" value="google">
-            Google
+          <option value="canvas" className="bg-black">
+            Canvas
           </option>
           <option className="bg-black" value="schoology">
             Schoology
           </option>
-          <option value="canvas" className="bg-black">
-            Canvas
-          </option>
-          <option value="ixl" className="bg-black">
+          <option className="bg-black" value="ixl">
             IXL
+          </option>
+          <option value="membean" className="bg-black">
+            Membean
+          </option>
+          <option value="noRedInk" className="bg-black">
+            NoRedInk
+          </option>
+          <option className="bg-black" value="google">
+            Google
+          </option>
+          <option value="gmail" className="bg-black">
+            Gmail
+          </option>
+          <option className="bg-black" value="googleClassroom">
+            Google Classroom
+          </option>
+          <option className="bg-black" value="googleDocs">
+            Google Docs
+          </option>
+          <option className="bg-black" value="googleSlides">
+            Google Slides
+          </option>
+          <option className="bg-black" value="googleSheets">
+            Google Sheets
           </option>
         </select>
       </div>
