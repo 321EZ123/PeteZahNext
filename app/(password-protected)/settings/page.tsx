@@ -327,7 +327,7 @@ export default function Page() {
 
   return (
     <>
-      <CenteredDivPage className="p-[50px]! max-h-[80%] overflow-y-auto hidden md:flex md:flex-col">
+      <CenteredDivPage className="p-[50px]! max-h-[85%] overflow-y-auto hidden md:flex md:flex-col">
         <SettingsContent />
       </CenteredDivPage>
       <div className="p-[20px]! md:hidden fixed top-0 left-0 w-full h-full overflow-y-auto bg-[#0A1D37] text-white">

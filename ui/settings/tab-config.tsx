@@ -22,6 +22,10 @@ const presets = {
     siteTitle: "PeteZah-Next",
     siteLogo: "/storage/images/logo-png-removebg-preview.png",
   },
+  canvas: {
+    siteTitle: "Dashboard",
+    siteLogo: "https://canvas.instructure.com/favicon.ico",
+  }
 };
 
 interface tabConfig {
@@ -130,6 +134,9 @@ export function TabConfigSettingsCard() {
           </option>
           <option className="bg-black" value="schoology">
             Schoology
+          </option>
+          <option value="canvas" className="bg-black">
+            Canvas
           </option>
         </select>
       </div>
