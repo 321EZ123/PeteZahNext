@@ -5,7 +5,7 @@ import { TextInput } from "@/ui/global/input";
 import { setLocalStorage } from "@/ui/settings-manager";
 
 const presets = {
-  "google-classroom": {
+  googleClassroom: {
     siteTitle: "Google Classroom",
     siteLogo: "https://ssl.gstatic.com/classroom/favicon.ico",
   },
@@ -25,7 +25,12 @@ const presets = {
   canvas: {
     siteTitle: "Dashboard",
     siteLogo: "https://canvas.instructure.com/favicon.ico",
-  }
+  },
+  ixl: {
+    siteTitle: "IXL | Math, Language Arts, Science, Social Studies, and Spanish",
+    siteLogo: "https://www.ixl.com/ixl-favicon.png",
+  },
+
 };
 
 interface tabConfig {
@@ -126,7 +131,7 @@ export function TabConfigSettingsCard() {
           <option className="bg-black" value="pzn">
             PeteZah-Next
           </option>
-          <option className="bg-black" value="google-classroom">
+          <option className="bg-black" value="googleClassroom">
             Google Classroom
           </option>
           <option className="bg-black" value="google">
@@ -137,6 +142,9 @@ export function TabConfigSettingsCard() {
           </option>
           <option value="canvas" className="bg-black">
             Canvas
+          </option>
+          <option value="ixl" className="bg-black">
+            IXL
           </option>
         </select>
       </div>
