@@ -303,31 +303,19 @@ export default function Page() {
 
             <div
               className="z-20 w-full overflow-hidden gh-image-wrapper"
-              style={{
-                WebkitMaskImage:
-                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-                maskImage:
-                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-                WebkitMaskRepeat: "no-repeat",
-                maskRepeat: "no-repeat",
-                WebkitMaskSize: "100% 100%",
-                maskSize: "100% 100%",
-              }}
             >
               <div
                 ref={containerRef}
-                className="flex items-center gh-image-container w-max"
+                className={`flex items-center gh-image-container w-max -translate-x-[${-counter * imageWidth}px]`}
                 onTransitionEnd={handleTransitionEnd}
-                style={{ transform: `translateX(-${counter * imageWidth}px)` }}
               >
                 {fullImageSet.map((image, index) => (
                   <div
                     key={index}
                     className={clsx(
-                      "relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box"
+                      `relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box w-[${imageWidth}px]`,
                     )}
                     onClick={redirectToGames}
-                    style={{ width: imageWidth }}
                   >
                     <Image
                       src={image.src}
