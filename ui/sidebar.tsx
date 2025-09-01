@@ -1,12 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import clsx from "clsx";
+
 import { useSidebar } from "@/context/sidebar-context";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import Link from "next/link";
 import Image from "next/image";
+
 import { GoHome, GoChevronLeft } from "react-icons/go";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { SlGlobe } from "react-icons/sl";
@@ -14,6 +17,10 @@ import { BsGrid3X3GapFill, BsGear } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { KeyIcon } from "@heroicons/react/24/outline";
+import { MdOutlineFeedback } from "react-icons/md";
+import { GrUpdate } from "react-icons/gr";
+
+import Topbar from "./topbar";
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -62,19 +69,19 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         onClick={handleClick}
         className={clsx(
           !sidebarToggled
-            ? "translate-x-[8px] items-center! aspect-square!"
+            ? "items-center! aspect-square! xl:w-[45px]!"
             : "w-[90%] ml-[16px]!",
-          "h-[50px] flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
+          "h-[35px]! xl:h-[45px]! flex transition-all duration-400 rounded-2xl disable-no-m-p hover:bg-white hover:text-black m-2!",
           isActiveTab(url, altLinks) && "bg-white text-black"
         )}
       >
         <button type="button" className="w-full h-full disable-no-m-p">
           <div
             className={clsx(
-              "box-content flex w-full h-full items-center disable-no-m-p ml-[4px]!"
+              "box-content flex w-full h-full items-center", !sidebarToggled ? "justify-center" : "pl-4!"
             )}
           >
-            <Icon className="z-10 flex items-center justify-center w-6 h-6 ml-2!" />
+            <Icon className="z-10 flex items-center justify-center w-4 h-4 xl:w-5 xl:h-5" />
             <span
               className={clsx(
                 "nav-label disable-no-m-p transition-all",
@@ -93,9 +100,14 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
   return (
     mounted && (
       <div className="flex w-screen h-screen">
+        {/* topbar */}
+
+        <Topbar />
+
+        {/* sidebar */}
         <aside
           className={clsx(
-            "sidebar h-full md:ml-[16px]! md:mt-[16px]! md:mb-[16px]! md:h-[calc(100vh-32px)]! md:rounded-[16px]! border-white border-r-2 md:border-2 transition-all duration-400",
+            "sidebar hidden md:block h-full md:ml-[16px]! md:mt-[16px]! md:mb-[16px]! md:h-[calc(100vh-32px)]! md:rounded-[16px]! border-white border-r-2 md:border-2 transition-all duration-400",
             sidebarToggled ? "sidebar-expanded w-[270px]" : "collapsed"
           )}
         >
@@ -146,11 +158,11 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             )}
           />
 
-          <nav className="h-full sidebar-nav">
+          <nav className="h-full overflow-y-auto sidebar-nav">
             <ul
               className={clsx(
-                "transition-all my-2 flex flex-col",
-                sidebarToggled ? "pr-2!" : "pr-[20%]!"
+                "transition-all my-2 flex flex-col items-center",
+                sidebarToggled && "pr-2!"
               )}
             >
               <NavbarLink
@@ -192,8 +204,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
             <ul
               className={clsx(
-                "transition-all my-2 flex flex-col",
-                sidebarToggled ? "pr-2!" : "pr-[20%]!"
+                "transition-all my-2 flex flex-col items-center",
+                sidebarToggled && "pr-2!"
               )}
             >
               <NavbarLink
@@ -202,7 +214,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                 url="/p"
               />
               <NavbarLink
-                title="Settings (WIP)"
+                title="Settings"
                 Icon={BsGear}
                 url="/settings"
               />
@@ -210,6 +222,16 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                 title="About"
                 Icon={FaRegCircleQuestion}
                 url="/about"
+              />
+              <NavbarLink
+                title="Feedback"
+                Icon={MdOutlineFeedback}
+                url="/feedback"
+              />
+              <NavbarLink
+                title="Changelog"
+                Icon={GrUpdate}
+                url="/changelog"
               />
             </ul>
           </nav>

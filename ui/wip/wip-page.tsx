@@ -87,16 +87,22 @@ export function WipPageData({
 
 export function WipWarning({
   estCompletionDate,
+  overrideText,
 }: {
   estCompletionDate?: string;
+  overrideText?: string;
 }) {
-
   return (
     <>
       <div className="flex items-center justify-center gap-4! text-red-500 font-semibold">
         <h1 className="text-xl text-center">
-          This page is a work in progress. {estCompletionDate && (
-            <> We hope to complete it {estCompletionDate}.</>
+          {overrideText ?? (
+            <>
+              This page is a work in progress.{" "}
+              {estCompletionDate && (
+                <> We hope to complete it {estCompletionDate}.</>
+              )}
+            </>
           )}
         </h1>
       </div>
