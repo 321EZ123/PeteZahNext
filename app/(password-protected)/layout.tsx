@@ -4,6 +4,7 @@ import Particles from "@/ui/particles";
 import Sidebar from "@/ui/sidebar";
 import { Suspense } from "react";
 import { SidebarProvider } from "@/context/sidebar-context";
+import { TopbarProvider } from "@/context/topbar-content";
 import { Analytics } from "@vercel/analytics/next";
 import AntiScreenshotOverlay from "@/ui/anti-screenshot-overlay";
 import { Cloak } from "@/ui/cloak";
@@ -15,7 +16,7 @@ import { SupabaseAuthListener } from "@/ui/client-providers";
 import SettingsProvider from "@/ui/settings-manager";
 
 export const metadata: Metadata = {
-  description: "The next generation of PeteZah Games",
+  description: "The next generation of PeteZah, privacy tool",
   keywords: `
     security, privacy, student privacy, digital safety,
     education, learning, teaching, curriculum, classroom technology, study tools, academic resources,
@@ -26,13 +27,9 @@ export const metadata: Metadata = {
     english, literature, reading, writing, grammar, language arts,
     history, social studies, geography, civics, economics, philosophy, psychology, computer science, coding, programming, technology in education
   `,
-
   other: {
     "benrogo:index": "index",
     "benrogo:uvpath": "/static/uv/uv.config.js",
-  },
-  icons: {
-    icon: "/favicon.ico",
   },
 };
 
@@ -46,7 +43,6 @@ export default function RootLayout({
       <SupabaseAuthListener />
       <Head>
         <title key="title">PeteZah-Next</title>
-        <link rel="icon" href="/favicon.ico" />
         {/* Fonts */}
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -60,35 +56,16 @@ export default function RootLayout({
           <AntiScreenshotOverlay />
           <Particles />
           <SettingsProvider>
-            <Suspense>
-              <CookiesProvider>
-                <SidebarProvider>
-                  <Sidebar>{children}</Sidebar>
-                </SidebarProvider>
-              </CookiesProvider>
-            </Suspense>
+            <TopbarProvider>
+              <Suspense>
+                <CookiesProvider>
+                  <SidebarProvider>
+                    <Sidebar>{children}</Sidebar>
+                  </SidebarProvider>
+                </CookiesProvider>
+              </Suspense>
+            </TopbarProvider>
           </SettingsProvider>
-
-          {/* changelog <Script id="changelogfy-config">
-            {`
-            let CLF_config = {
-              app_id: "03599c7b-79db-4651-8efa-90e18b54dabf",
-              data: {
-                  user_id: '123456',
-                  user_email: 'user@email.com',
-                  user_name: 'User Name',
-                  custom_data: {
-                      'JobRole': 'CEO',
-                      'Plan': 'Pro',
-                      'teamMates': '4',
-                      'MonthlySpend': '50 USD'
-                  }
-              }
-            };
-          `}
-          </Script>
-          <Script async src="https://widget.changelogfy.com/index.js" /> */}
-
           <Analytics />
         </Cloak>
       </div>

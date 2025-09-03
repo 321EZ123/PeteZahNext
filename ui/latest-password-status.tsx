@@ -5,6 +5,7 @@ import { useCookies } from "next-client-cookies";
 
 export default function LatestPasswordStatus({ className }: { className?: string }) {
   const cookies = useCookies();
+  
   const [passwords, setPasswords] = useState<Record<string, string> | null>(null);
   const [expirationString, setExpirationString] = useState("");
   const [latestMonth, setLatestMonth] = useState<string | null>(null);
@@ -72,7 +73,7 @@ export default function LatestPasswordStatus({ className }: { className?: string
   const cookiePassword = cookies.get("app-password");
 
   return (
-    <div className={`mb-4! ${className}`}>
+    <div className={`text-xs lg:text-sm mb-4! ${className}`}>
       {cookiePassword === latestPassword ? (
         <span className="text-green-500">You are on the latest password!</span>
       ) : (

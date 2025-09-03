@@ -18,7 +18,7 @@ export default function WipPage({
 
   return (
     <>
-      <CenteredDivPage>
+      <CenteredDivPage className="p-[50px]!">
         <div className="flex items-center justify-center gap-4!">
           <h1 className="text-3xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
             This page is a work in progress.
@@ -87,16 +87,22 @@ export function WipPageData({
 
 export function WipWarning({
   estCompletionDate,
+  overrideText,
 }: {
   estCompletionDate?: string;
+  overrideText?: string;
 }) {
-
   return (
     <>
       <div className="flex items-center justify-center gap-4! text-red-500 font-semibold">
         <h1 className="text-xl text-center">
-          This page is a work in progress. {estCompletionDate && (
-            <> We hope to complete it {estCompletionDate}.</>
+          {overrideText ?? (
+            <>
+              This page is a work in progress.{" "}
+              {estCompletionDate && (
+                <> We hope to complete it {estCompletionDate}.</>
+              )}
+            </>
           )}
         </h1>
       </div>

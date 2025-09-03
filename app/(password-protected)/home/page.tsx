@@ -14,12 +14,20 @@ import LatestPasswordStatus from "@/ui/latest-password-status";
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useSearchParams } from "next/navigation";
-import { PrimaryButtonChildren, SecondaryButtonChildren } from "@/ui/global/buttons";
+import {
+  PrimaryButtonChildren,
+  SecondaryButtonChildren,
+} from "@/ui/global/buttons";
+import Card from "@/ui/global/card";
+import Link from "next/link";
+import { IoIosClose } from "react-icons/io";
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [counter, setCounter] = useState(4);
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   const searchParams = useSearchParams();
 
@@ -27,8 +35,10 @@ export default function Page() {
 
   useEffect(() => {
     async function loadUser() {
+      setLoading(true);
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
+      setLoading(false);
     }
     loadUser();
   }, [supabase.auth]);
@@ -136,7 +146,7 @@ export default function Page() {
   }
 
   async function handleSignOut() {
-    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    const { error } = await supabase.auth.signOut({ scope: "local" });
     if (error) {
       alert("Error signing out: " + error);
     }
@@ -144,12 +154,55 @@ export default function Page() {
     setUser(data.user);
   }
 
+  function hidePopup() {
+    setShowPopup(false);
+    localStorage.setItem("popupHiddenTime", String(Date.now()));
+  }
+
+  useEffect(() => {
+    if (
+      parseInt(localStorage.getItem("popupHiddenTime") || "0") < 1755952891140
+    ) {
+      setShowPopup(true);
+    }
+  }, []);
+
   return (
     <div className="flex items-center h-full relative w-full bg-[#0A1D37] text-white overflow-hidden">
+      {showPopup && (
+        <>
+          <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full z-100 bg-gray-800/50">
+            <Card className="p-2! text-center max-w-1/2 xl:max-w-1/3">
+              <div className="flex justify-between items-center mb-2!">
+                <h1 className="ml-3 text-3xl">Welcome to PeteZah-Next!</h1>{" "}
+                <div
+                  className="rounded-full bg-red-600 flex justify-center items-center h-[35px] w-[35px] cursor-pointer aspect-square!"
+                  onClick={hidePopup}
+                >
+                  <IoIosClose size={30} />
+                </div>
+              </div>
+              <p className="text-gray-400">
+                We&apos;re happy to have you here. If you would like to be part of
+                our community and gain access to more links, features and info,
+                please join our Discord Server{" "}
+                <Link
+                  className="text-blue-500 underline"
+                  href={"https://discord.gg/GqshrYNn62"}
+                >
+                  here
+                </Link>
+                .
+              </p>
+            </Card>
+          </div>
+        </>
+      )}
+
       <Particles />
-      <div className="flex items-center justify-between w-full">
-        <div className="relative z-5 p-8! rounded-2xl bg-[#0A1D37] border-2 border-[#0096FF] text-white text-left left-[10%] w-[450px]">
-          <h2 className="text-[40px] font-bold">
+      <div className="flex items-center justify-center w-full md:justify-between">
+        <div className="relative z-5 p-8! rounded-2xl bg-[#0A1D37] border-2 border-[#0096FF] text-white text-left md:left-[10%] w-[450px] max-w-[90%]! overflow-auto">
+          <h2 className="text-[30px] lg:text-[35px] xl:text-[40px] font-bold">
             Welcome to
             <br />
             <span className="hidden cursor-text bg-linear-to-r from-[#40e0d0] via-[#0096FF] to-[#0096FF] bg-clip-text text-transparent h-[27px] md:inline">
@@ -158,9 +211,10 @@ export default function Page() {
             <span className="cursor-text bg-linear-to-r from-[#40e0d0] via-[#0096FF] to-[#0096FF] bg-clip-text text-transparent h-[27px] md:hidden">
               PeteZah Games.
             </span>
-            <p className="text-sm my-[20px]! text-gray-400 flex items-center">
+            <p className="text-xs lg:text-sm my-[20px]! text-gray-400 flex items-center">
               (Official Next.js Version)
               <button
+                title="Redirect to About Page"
                 type="button"
                 className="justify-center items-center h-[25px] w-[25px] m-[4px]! bg-[#112c69] rounded-[8px] p-[4px]! inline-flex cursor-pointer"
                 onClick={redirectToAbout}
@@ -172,23 +226,21 @@ export default function Page() {
           <LatestPasswordStatus />
           <p className="mb-[20px]! text-[18px]">Game on!</p>
           <div className="flex">
-            <PrimaryButtonChildren
-              onClick={redirectToGames}
-              className="mr-2!"
-            >
+            <PrimaryButtonChildren onClick={redirectToGames} className="mr-2!">
               Start Gaming
             </PrimaryButtonChildren>
             <br />
-            {user ? (
-              <SecondaryButtonChildren
-                onClick={handleSignOut}
-              >
+            {loading ? (
+              <div className="flex items-center justify-center m-[4px]! mt-[15px]!">
+                {" "}
+                <span>Fetching user...</span>
+              </div>
+            ) : user ? (
+              <SecondaryButtonChildren onClick={handleSignOut}>
                 Sign Out
               </SecondaryButtonChildren>
             ) : (
-              <SecondaryButtonChildren
-                onClick={() => router.push("/login")}
-              >
+              <SecondaryButtonChildren onClick={() => router.push("/login")}>
                 Sign In (Optional)
               </SecondaryButtonChildren>
             )}
@@ -196,7 +248,7 @@ export default function Page() {
 
           <br />
           <form onSubmit={signOut}>
-            <button type="submit">
+            <button title="Lock Site" type="submit">
               <div className="flex justify-center items-center h-[30px] w-[30px] m-[4px]! mt-[15px]! bg-[#112c69] rounded-[8px]">
                 <ImExit />
               </div>
@@ -204,7 +256,7 @@ export default function Page() {
           </form>
 
           <div className="flex social-media-tray">
-            <a href="https://x.com/PeteZahGames/" target="_parent">
+            <a title="Our X Account" href="https://x.com/PeteZahGames/" target="_parent">
               <div className="flex justify-center items-center h-[30px] w-[30px] m-[4px]! mt-[15px]! bg-[#112c69] rounded-[8px]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -220,7 +272,7 @@ export default function Page() {
                 </svg>
               </div>
             </a>
-            <a href="https://discord.gg/cYjHFDguxS" target="_parent">
+            <a title="Join our Discord Server!" href="https://discord.gg/cYjHFDguxS" target="_parent">
               <div className="flex justify-center items-center h-[30px] w-[30px] m-[4px]! mt-[15px]! bg-[#112c69] rounded-[8px]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
