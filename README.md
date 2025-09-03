@@ -102,6 +102,9 @@ Or use the buttons below (You will have to set up enviroment variables)
 ## Links
 
 - [sso.adidasnmdcitysock.com](https://sso.adidasnmdcitysock.com)
+- <https://pzn.lynx-ai-demo.com/>
+- <https://math.lynx-ai-demo.com/>
+- <https://science.lynx-ai-demo.com/>
 
 More coming soon!
 
