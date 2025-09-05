@@ -29,7 +29,7 @@ export default function AdManager() {
 
   useEffect(() => {
     async function checkUserBooster(userId: string) {
-      if (!userId) return;
+      if (!userId) return appendAdScript();
 
       const res = await fetch(`/api/is-booster?user_id=${userId}`, {
         method: "POST",
