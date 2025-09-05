@@ -110,4 +110,4 @@ More coming soon!
 
 ## Preview Link
 
-This will become a booster feature soon. Right now, all users can access the most recent version with [this](https://petezah-next-git-internetbowser670-internetbowsers-projects.vercel.app?_vercel_share=q4vztvGtVmf9s0JpndrkViXlEYHHea3P) link:
+This will become a booster feature soon. Right now, all users can access the most recent version with [this](https://petezah-next-git-early-september-25-internetbowsers-projects.vercel.app?_vercel_share=s8ee3XLrCa8Nq8xSEhjTzk243sXIAg3k) link.
