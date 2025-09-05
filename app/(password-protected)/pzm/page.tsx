@@ -364,7 +364,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="absolute flex items-center justify-center w-full top-2">
+      <div className="absolute flex items-center justify-center w-full top-16 md:top-2">
         <div className="max-w-[560px] max-h-[80vh] overflow-y-auto transition-all z-100 border-2 border-white p-2! rounded-2xl bg-gray-400/10 backdrop-blur-md backdrop-filter hover:bg-gray-200/20 focus:bg-white/30">
           <div className="flex items-center justify-center gap-2">
             <FaSearch />
