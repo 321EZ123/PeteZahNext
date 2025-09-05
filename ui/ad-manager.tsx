@@ -29,6 +29,8 @@ export default function AdManager() {
 
   useEffect(() => {
     async function checkUserBooster(userId: string) {
+      if (!userId) return;
+
       const res = await fetch(`/api/is-booster?user_id=${userId}`, {
         method: "POST",
         body: JSON.stringify({ user_id: userId }),

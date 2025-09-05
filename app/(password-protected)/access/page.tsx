@@ -23,7 +23,9 @@ export default function Page() {
   async function enableLatestPassword() {
     if (!passwords) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const latestMonth: any = Object.keys(passwords.passwords).sort().reverse()[0];
+    const latestMonth: any = Object.keys(passwords.passwords)
+      .sort()
+      .reverse()[0];
     const latestPassword = passwords.passwords[latestMonth];
     const formData = new FormData();
     formData.append("password", latestPassword);
@@ -80,36 +82,38 @@ export default function Page() {
               })()}
             </div>
 
-            <table className="max-w-[90%]! my-4 border border-collapse border-white">
-              <thead className="bg-[#1f2b47] text-white">
-                <tr className="even:bg-[#2c3b5a] border border-white">
-                  <th className="px-4! py-2! font-semibold text-left border border-white">
-                    Month
-                  </th>
-                  <th className="px-4! py-2! font-semibold text-left border border-white">
-                    Password
-                  </th>
-                  <th className="px-4! py-2! font-semibold text-left border border-white">
-                    Enable
-                  </th>
-                  <th className="px-4! py-2! font-semibold text-left border border-white">
-                    Time Until Expiration
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(passwords.passwords).map(
-                  ([month, pwd], index) => (
-                    <PasswordRow
-                      key={index}
-                      month={month}
-                      pwd={pwd}
-                      forceUpdate={forceUpdate}
-                    />
-                  )
-                )}
-              </tbody>
-            </table>
+            <div className="flex justify-center">
+              <table className="max-w-[90%]! my-4 border border-collapse border-white">
+                <thead className="bg-[#1f2b47] text-white">
+                  <tr className="even:bg-[#2c3b5a] border border-white">
+                    <th className="px-4! py-2! font-semibold text-left border border-white">
+                      Month
+                    </th>
+                    <th className="px-4! py-2! font-semibold text-left border border-white">
+                      Password
+                    </th>
+                    <th className="px-4! py-2! font-semibold text-left border border-white">
+                      Enable
+                    </th>
+                    <th className="px-4! py-2! font-semibold text-left border border-white">
+                      Time Until Expiration
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(passwords.passwords).map(
+                    ([month, pwd], index) => (
+                      <PasswordRow
+                        key={index}
+                        month={month}
+                        pwd={pwd}
+                        forceUpdate={forceUpdate}
+                      />
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
           </>
         ) : (
           <p>Loading passwords...</p>
