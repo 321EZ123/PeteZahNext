@@ -1,17 +1,49 @@
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
-  "crons": [
-    {
-      "path": "/api/cron-password",
-      "schedule": "0 0 * * *"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/$1"
-    }
-  ]
-}
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch add-proxy
+# Changes to be committed:
+#	deleted:    app/(password-protected)/a/page.tsx
+#	deleted:    app/(password-protected)/about/page.tsx
+#	deleted:    app/(password-protected)/access/page.tsx
+#	deleted:    app/(password-protected)/api/chat/route.ts
+#	deleted:    app/(password-protected)/api/cron-password/route.ts
+#	deleted:    app/(password-protected)/api/cron/route.ts
+#	deleted:    app/(password-protected)/api/delete-user/route.ts
+#	deleted:    app/(password-protected)/api/get-passwords/route.ts
+#	deleted:    app/(password-protected)/api/is-booster/route.ts
+#	deleted:    app/(password-protected)/api/private-profile/route.ts
+#	deleted:    app/(password-protected)/api/star-song/route.ts
+#	deleted:    app/(password-protected)/api/submit-password/route.ts
+#	deleted:    app/(password-protected)/api/verify-googlebot/route.ts
+#	deleted:    app/(password-protected)/api/ytmusic/search/route.ts
+#	deleted:    app/(password-protected)/api/ytmusic/thumbnail/route.ts
+#	deleted:    app/(password-protected)/app/page.tsx
+#	deleted:    app/(password-protected)/auth/confirm/route.ts
+#	deleted:    app/(password-protected)/changelog/page.tsx
+#	deleted:    app/(password-protected)/chat/route.ts
+#	deleted:    app/(password-protected)/error/page.tsx
+#	deleted:    app/(password-protected)/feedback/page.tsx
+#	deleted:    app/(password-protected)/g/page.tsx
+#	deleted:    app/(password-protected)/home/page.tsx
+#	deleted:    app/(password-protected)/instant-link/page.tsx
+#	deleted:    app/(password-protected)/layout.tsx
+#	deleted:    app/(password-protected)/login/actions.ts
+#	deleted:    app/(password-protected)/login/page.tsx
+#	deleted:    app/(password-protected)/not-found/page.tsx
+#	deleted:    app/(password-protected)/p/page.tsx
+#	deleted:    app/(password-protected)/pete-ai/page.tsx
+#	deleted:    app/(password-protected)/play/page.tsx
+#	deleted:    app/(password-protected)/pr/page.tsx
+#	deleted:    app/(password-protected)/pzm/page.tsx
+#	deleted:    app/(password-protected)/settings/page.tsx
+#	modified:   package.json
+#	modified:   pnpm-lock.yaml
+#
+# Untracked files:
+#	app/(password-protected)/
+#	public/baremux/
+#	public/epoxy/
+#	scripts/
+#
