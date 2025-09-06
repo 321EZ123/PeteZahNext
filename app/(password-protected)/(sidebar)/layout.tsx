@@ -14,6 +14,7 @@ import { geistMono } from "@/lib/fonts";
 import { CookiesProvider } from "next-client-cookies/server";
 import { SupabaseAuthListener } from "@/ui/client-providers";
 import SettingsProvider from "@/ui/settings-manager";
+import BareMuxConnectionComponent from "@/ui/bare-mux-connection";
 
 export const metadata: Metadata = {
   description: "The next generation of PeteZah, privacy tool",
@@ -40,6 +41,7 @@ export default function RootLayout({
 }) {
   return (
     <>
+      <BareMuxConnectionComponent />
       <SupabaseAuthListener />
       <Head>
         <title key="title">PeteZah-Next</title>
