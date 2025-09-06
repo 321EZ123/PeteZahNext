@@ -11,7 +11,7 @@ export default function BareMuxConnectionComponent() {
       await connection.setTransport("/epoxy/index.mjs", [
         { wisp: "wss://wisp.mercurywork.shop/" },
       ]);
-      await connection.setTransport("/baremod/index.mjs", ["https://tomp.app/"]);
+      await connection.setTransport("/baremux/index.mjs", ["https://tomp.app/"]);
     }
 
     initConnection().catch(console.error);
