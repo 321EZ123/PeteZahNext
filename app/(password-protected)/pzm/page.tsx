@@ -253,6 +253,10 @@ export default function Page() {
     playerVars: {
       autoplay: 1,
     },
+    host: "https://www.youtube.com", 
+    controls: 0,
+    modestbranding: 1,
+    rel: 0,
   };
 
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
