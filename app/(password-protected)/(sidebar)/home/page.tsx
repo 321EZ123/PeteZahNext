@@ -183,9 +183,9 @@ export default function Page() {
                 </div>
               </div>
               <p className="text-gray-400">
-                We&apos;re happy to have you here. If you would like to be part of
-                our community and gain access to more links, features and info,
-                please join our Discord Server{" "}
+                We&apos;re happy to have you here. If you would like to be part
+                of our community and gain access to more links, features and
+                info, please join our Discord Server{" "}
                 <Link
                   className="text-blue-500 underline"
                   href={"https://discord.gg/GqshrYNn62"}
@@ -256,7 +256,11 @@ export default function Page() {
           </form>
 
           <div className="flex social-media-tray">
-            <a title="Our X Account" href="https://x.com/PeteZahGames/" target="_parent">
+            <a
+              title="Our X Account"
+              href="https://x.com/PeteZahGames/"
+              target="_parent"
+            >
               <div className="flex justify-center items-center h-[30px] w-[30px] m-[4px]! mt-[15px]! bg-[#112c69] rounded-[8px]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +276,11 @@ export default function Page() {
                 </svg>
               </div>
             </a>
-            <a title="Join our Discord Server!" href="https://discord.gg/cYjHFDguxS" target="_parent">
+            <a
+              title="Join our Discord Server!"
+              href="https://discord.gg/cYjHFDguxS"
+              target="_parent"
+            >
               <div className="flex justify-center items-center h-[30px] w-[30px] m-[4px]! mt-[15px]! bg-[#112c69] rounded-[8px]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -302,32 +310,22 @@ export default function Page() {
             </button>
 
             <div
-              className="z-20 w-full overflow-hidden gh-image-wrapper"
-              style={{
-                WebkitMaskImage:
-                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-                maskImage:
-                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-                WebkitMaskRepeat: "no-repeat",
-                maskRepeat: "no-repeat",
-                WebkitMaskSize: "100% 100%",
-                maskSize: "100% 100%",
-              }}
+              className="z-20 w-full overflow-hidden gh-image-wrapper [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] [--tw-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [--tw-webkit-mask-repeat:no-repeat] [--tw-webkit-mask-size:100%_100%]"
             >
               <div
                 ref={containerRef}
-                className="flex items-center gh-image-container w-max"
+                className={`flex items-center gh-image-container w-max translate-x-[${
+                  counter * imageWidth
+                }px]`}
                 onTransitionEnd={handleTransitionEnd}
-                style={{ transform: `translateX(-${counter * imageWidth}px)` }}
               >
                 {fullImageSet.map((image, index) => (
                   <div
                     key={index}
                     className={clsx(
-                      "relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box"
+                      "relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box w-[${}]", `w-[${imageWidth}px]`
                     )}
                     onClick={redirectToGames}
-                    style={{ width: imageWidth }}
                   >
                     <Image
                       src={image.src}
@@ -335,6 +333,7 @@ export default function Page() {
                       className="gh-image w-[120px] h-[80px] object-cover mx-[4px]"
                       width={120}
                       height={80}
+                      unoptimized={process.env.NODE_ENV === "development"}
                     />
                     <div
                       className={clsx(
@@ -371,6 +370,7 @@ export default function Page() {
             alt={currentImage.caption}
             className="h-[200px] border-[5px] border-solid border-[#0096FF] rounded-[15px] transition-all duration-300 ease-in-out hover:scale-105 transform"
             id="large-image"
+            unoptimized={process.env.NODE_ENV === "development"}
           />
           <div
             className="mt-[10px]! text-white font-[600] text-[18px] bg-blue-950 backdrop-opacity-50 p-[8px]! rounded-[8px]"

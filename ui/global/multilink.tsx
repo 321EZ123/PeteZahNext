@@ -19,23 +19,22 @@ export default function MultiLink({ label, subLinks }: MultiLinkProps) {
 
       {hovered && subLinks && subLinks.length > 0 && (
         <div
-          className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-black/50 z-60"
+          className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-black/50 z-200"
           onClick={() => setHovered(false)}
         >
           <Card className="p-4! flex flex-col gap-2 max-w-[90vw] items-center">
             <p className="mb-2! text-xl">{label + " Links:"}</p>
             <div className="flex gap-2">
-              {subLinks.map((subLink) => (
-                <>
+              {subLinks.map((subLink, index) => (
+                <React.Fragment key={subLink.href + index}>
                   <Link
-                    key={subLink.href}
                     href={subLink.href}
                     className="px-3 py-1 text-gray-200 hover:underline"
                   >
                     {subLink.label}
                   </Link>
                   {subLink !== subLinks[subLinks.length - 1] && <span>|</span>}
-                </>
+                </React.Fragment>
               ))}
             </div>
           </Card>

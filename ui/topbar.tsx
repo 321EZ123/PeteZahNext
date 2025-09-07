@@ -56,6 +56,7 @@ export default function Topbar() {
               height={20}
               width={20}
               alt="PeteZah"
+              unoptimized={process.env.NODE_ENV === "development"}
             />
             <p className="ml-2! hidden sm:block text-white font-bold">
               {topbarToggled ? "Menu" : "Close"}
