@@ -83,7 +83,7 @@ export default function RootLayout({
             src="https://www.googletagmanager.com/ns.html?id=GTM-WPH7NCG4"
             height="0"
             width="0"
-            style={{display: "none", visibility: "hidden"}}
+            className="invisible hidden"
           ></iframe>
         </noscript>
         <GooglebotVerifier />
