@@ -25,7 +25,6 @@ import { PiRepeat, PiRepeatBold, PiRepeatOnceBold } from "react-icons/pi";
 import { createClient } from "@/utils/supabase/client";
 import { setLocalStorage } from "@/ui/settings-manager";
 import { PrimaryButton } from "@/ui/global/buttons";
-import { useTopbar } from "@/context/topbar-content";
 
 // Standard song type
 interface YTMusicReult {
@@ -55,9 +54,6 @@ export default function Page() {
     "queue"
   );
   const [currentTime, setCurrentTime] = useState(0);
-
-  // Topbar info
-  const { topbarToggled } = useTopbar();
 
   // The YouTube Player
   const playerRef = useRef<YT.Player | null>(null);
@@ -372,8 +368,8 @@ export default function Page() {
 
   return (
     <>
-      <div className={clsx("absolute flex items-center justify-center w-full transition-all ease-in-out", topbarToggled ? "top-2" : "top-18 md:top-2")}>
-        <div className="max-w-[560px] max-h-[80vh] overflow-y-auto transition-all z-50 border-2 border-white p-2! rounded-2xl bg-gray-400/10 backdrop-blur-md backdrop-filter hover:bg-gray-200/20 focus:bg-white/30">
+      <div className="absolute flex items-center justify-center w-full top-16 md:top-2">
+        <div className="max-w-[560px] max-h-[80vh] overflow-y-auto transition-all z-100 border-2 border-white p-2! rounded-2xl bg-gray-400/10 backdrop-blur-md backdrop-filter hover:bg-gray-200/20 focus:bg-white/30">
           <div className="flex items-center justify-center gap-2">
             <FaSearch />
             <input
