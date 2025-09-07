@@ -47,6 +47,7 @@ export default function Page() {
                 height={170}
                 alt={game.label}
                 src={game.imageUrl}
+                unoptimized={process.env.NODE_ENV === "development"}
               />
               <p className="absolute bottom-0 right-0 text-center bg-black/60 p-[10px] w-full">
                 {game.label}

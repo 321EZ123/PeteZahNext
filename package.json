@@ -9,8 +9,7 @@
     "dev": "cross-env NODE_OPTIONS=--inspect next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "node scripts/copy-assets.mjs"
+    "lint": "next lint"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.19",
