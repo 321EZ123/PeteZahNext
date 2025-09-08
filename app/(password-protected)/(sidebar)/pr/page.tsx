@@ -1,12 +1,23 @@
 "use client";
 
 import { IoClose } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { PrimaryButtonChildren } from "@/ui/global/buttons";
 import clsx from "clsx";
 import { Tab } from "@/lib/types";
 import NewTab from "@/ui/proxy/new-tab";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+
+function reorder<T>(list: T[], start: number, end: number): T[] {
+  const result = [...list];
+  const [removed] = result.splice(start, 1);
+  result.splice(end, 0, removed);
+  return result;
+}
 
 export default function Page() {
   const [tabs, setTabs] = useState<Tab[]>([
@@ -15,53 +26,73 @@ export default function Page() {
   const [currentTabIndex, setCurrentIndex] = useState<number>(0);
 
   function TabComponent({ tab, index }: { tab: Tab; index: number }) {
+    const ref = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+
+      const cleanupDraggable = draggable({
+        element: el,
+        getInitialData: () => ({ index }),
+      });
+
+      const cleanupDropTarget = dropTargetForElements({
+        element: el,
+        getData: () => ({ index }),
+        onDrop: ({ source, self }) => {
+          const from = (source?.data as { index: number })?.index;
+          const to = (self?.data as { index: number })?.index;
+          if (from === undefined || to === undefined || from === to) return;
+          setTabs((prev) => reorder(prev, from, to));
+          setCurrentIndex(to);
+        },
+      });
+
+      return () => {
+        cleanupDraggable();
+        cleanupDropTarget();
+      };
+    }, [index]);
+
     return (
-      <>
-        <button
-          type="button"
-          title={tab.title}
-          onClick={() => setCurrentIndex(index)}
-          className={clsx(
-            `hover:bg-[#35537e] transition-all duration-300 rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]`,
-            index == currentTabIndex && "bg-[#35537e]!"
-          )}
-        >
-          <p className="overflow-hidden whitespace-nowrap text-ellipsis max-w-50">
-            {tab.title}
-          </p>
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-
-              setTabs((prevTabs) => {
-                if (!prevTabs) return [];
-
-                const newTabs = prevTabs.filter((_, i) => i !== index);
-
-                setCurrentIndex((prevIndex) => {
-                  if (index < prevIndex) {
-                    return prevIndex - 1;
-                  } else if (index === prevIndex) {
-                    if (prevIndex >= newTabs.length) {
-                      return Math.max(newTabs.length - 1, 0);
-                    } else {
-                      return prevIndex;
-                    }
-                  } else {
-                    return prevIndex;
+      <button
+        ref={ref}
+        type="button"
+        title={tab.title}
+        onClick={() => setCurrentIndex(index)}
+        className={clsx(
+          `hover:bg-[#35537e] transition-all duration-300 rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]`,
+          index == currentTabIndex && "bg-[#35537e]!"
+        )}
+      >
+        <p className="overflow-hidden whitespace-nowrap text-ellipsis max-w-50">
+          {tab.title}
+        </p>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setTabs((prevTabs) => {
+              const newTabs = prevTabs.filter((_, i) => i !== index);
+              setCurrentIndex((prevIndex) => {
+                if (index < prevIndex) return prevIndex - 1;
+                if (index === prevIndex) {
+                  if (prevIndex >= newTabs.length) {
+                    return Math.max(newTabs.length - 1, 0);
                   }
-                });
-
-                return newTabs;
+                  return prevIndex;
+                }
+                return prevIndex;
               });
-            }}
-            className="cursor-pointer hover:bg-[#7a92b3] transition-all duration-300 rounded-full"
-            title="Close tab"
-          >
-            <IoClose />
-          </div>
-        </button>
-      </>
+              return newTabs;
+            });
+          }}
+          className="cursor-pointer hover:bg-[#7a92b3] transition-all duration-300 rounded-full"
+          title="Close tab"
+        >
+          <IoClose />
+        </div>
+      </button>
     );
   }
 
@@ -87,11 +118,9 @@ export default function Page() {
             </button>
           </>
         ) : (
-          <>
-            <div className="flex items-center h-full">
-              Open a tab to get started.
-            </div>
-          </>
+          <div className="flex items-center h-full">
+            Open a tab to get started.
+          </div>
         )}
       </div>
       <div className="flex items-center justify-center w-full h-full">
