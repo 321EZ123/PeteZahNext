@@ -67,7 +67,7 @@ export function TextInput({
   return (
     <input
       onChange={(e) => onChange?.(e.target.value)}
-      className={`px-2! py-1! bg-black border-2 border-white rounded-2xl transition-colors duration-500 mx-2! ${className}`}
+      className={`px-2! py-1! bg-black border-2 border-white rounded-2xl transition-colors duration-500 mx-2! focus:outline-none ${className}`}
       placeholder={placeholder}
       value={value}
       name=""
@@ -82,6 +82,8 @@ type CustomTextboxChildrenProps = {
   placeholder?: string;
   className?: string;
   children?: React.ReactNode;
+  name?: string; // 👈 add this
+  id?: string; // optional
 };
 
 export function TextInputChildren({
@@ -90,17 +92,21 @@ export function TextInputChildren({
   className,
   placeholder,
   children,
+  name,
+  id,
 }: CustomTextboxChildrenProps) {
   return (
-    <div className={`px-2! py-1! bg-black border-2 border-white rounded-2xl transition-colors duration-500 mx-2! flex ${className}`}>
+    <div
+      className={`px-2! py-1! bg-black border-2 border-white rounded-2xl transition-colors duration-500 mx-2! flex ${className}`}
+    >
       {children}
       <input
-      className="w-full mx-2!"
+        className="w-full mx-2! focus:outline-none"
         onChange={(e) => onChange?.(e.target.value)}
         placeholder={placeholder}
         value={value}
-        name=""
-        id=""
+        name={name}
+        id={id}
       />
     </div>
   );

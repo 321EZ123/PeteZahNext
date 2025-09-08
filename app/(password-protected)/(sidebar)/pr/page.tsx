@@ -115,12 +115,12 @@ export default function Page() {
               <MarqueeBg />
               <Card className="flex flex-col gap-4 p-[30]!">
                 <h1 className="text-6xl">PeteZah-Next</h1>
-                <h3 className="text-2xl text-center">
-                  Warning: This isn't a proxy... yet.
+                <h3 className="text-xl text-center">
+                  Warning: This isn&apos;t a proxy... yet.
                 </h3>
                 <form
                   onSubmit={(e) => {
-                    e.preventDefault(); // prevent page reload
+                    e.preventDefault();
                     const formData = new FormData(e.currentTarget);
                     const query = (formData.get("search") as string)?.trim();
                     if (!query) return;
@@ -141,7 +141,7 @@ export default function Page() {
                     e.currentTarget.reset();
                   }}
                 >
-                  <TextInputChildren>
+                  <TextInputChildren name="search">
                     <div className="flex items-center">
                       <IoSearch />
                     </div>
