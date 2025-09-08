@@ -1,6 +1,6 @@
 "use client";
 
-import { IoClose, IoSearch } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { PrimaryButtonChildren } from "@/ui/global/buttons";
@@ -108,6 +108,7 @@ export default function Page() {
             tab.url == "pzn://new-tab" ? (
               <NewTab
                 key={index}
+                index={index}
                 tabs={tabs}
                 setTabs={setTabs}
                 setCurrentIndex={setCurrentIndex}

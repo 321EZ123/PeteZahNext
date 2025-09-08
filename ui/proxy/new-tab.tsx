@@ -6,19 +6,21 @@ import { Dispatch, SetStateAction } from "react";
 import { Tab } from "@/lib/types";
 
 export default function NewTab({
-  tabs,
+  index,
   setTabs,
-  setCurrentIndex,
   className,
 }: {
   tabs: Tab[];
   setTabs: Dispatch<SetStateAction<Tab[]>>;
   setCurrentIndex: Dispatch<SetStateAction<number>>;
   className?: string;
+  index: number;
 }) {
   return (
     <>
-      <div className={`flex items-center justify-center w-full h-full overflow-hidden ${className}`}>
+      <div
+        className={`flex items-center justify-center w-full h-full overflow-hidden ${className}`}
+      >
         <MarqueeBg />
         <Card className="flex flex-col gap-4 p-[30]! max-w-[80%]">
           <h1 className="w-full text-6xl text-center">PeteZah-Next</h1>
@@ -54,8 +56,12 @@ export default function NewTab({
                 }
               }
               const newTab: Tab = { title, url };
-              setTabs((prev) => [...prev, newTab]);
-              setCurrentIndex(tabs.length);
+
+              setTabs((prev) => {
+                const updated = [...prev];
+                updated[index] = newTab;
+                return updated;
+              });
 
               form.reset();
             }}
