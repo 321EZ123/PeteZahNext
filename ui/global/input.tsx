@@ -62,7 +62,7 @@ export function TextInput({
   value,
   onChange,
   className,
-  placeholder
+  placeholder,
 }: CustomTextboxProps) {
   return (
     <input
@@ -73,5 +73,35 @@ export function TextInput({
       name=""
       id=""
     />
+  );
+}
+
+type CustomTextboxChildrenProps = {
+  value?: string;
+  onChange?: (content: string) => void;
+  placeholder?: string;
+  className?: string;
+  children?: React.ReactNode;
+};
+
+export function TextInputChildren({
+  value,
+  onChange,
+  className,
+  placeholder,
+  children,
+}: CustomTextboxChildrenProps) {
+  return (
+    <div className={`px-2! py-1! bg-black border-2 border-white rounded-2xl transition-colors duration-500 mx-2! flex ${className}`}>
+      {children}
+      <input
+      className="w-full mx-2!"
+        onChange={(e) => onChange?.(e.target.value)}
+        placeholder={placeholder}
+        value={value}
+        name=""
+        id=""
+      />
+    </div>
   );
 }
