@@ -17,7 +17,7 @@ export default function RootLayout({
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-SHE360M0YP"
         />
-        <Script>
+        <Script id="google-analytics">
           {`(function (w, d, s, l, i) {
               w[l] = w[l] || [];
               w[l].push({
@@ -33,7 +33,7 @@ export default function RootLayout({
             })(window, document, "script", "dataLayer", "GTM-WPH7NCG4");
             `}
         </Script>
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics-datalayer" strategy="afterInteractive">
           {/* this just makes sure that Next doesn't check the code (trust me, it works) */}
           {`
             window.dataLayer = window.dataLayer || [];
