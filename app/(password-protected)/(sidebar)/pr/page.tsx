@@ -5,14 +5,8 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { PrimaryButtonChildren } from "@/ui/global/buttons";
 import clsx from "clsx";
-import { TextInputChildren } from "@/ui/global/input";
-import MarqueeBg from "@/ui/backgrounds/marquee-bg";
-import Card from "@/ui/global/card";
-
-interface Tab {
-  title: string;
-  url: string;
-}
+import { Tab } from "@/lib/types";
+import NewTab from "@/ui/proxy/new-tab";
 
 export default function Page() {
   const [tabs, setTabs] = useState<Tab[]>([
@@ -109,68 +103,28 @@ export default function Page() {
           >
             New Tab
           </PrimaryButtonChildren>
-        ) : tabs[currentTabIndex].url == "pzn://new-tab" ? (
-          <>
-            <div className="flex items-center justify-center w-full h-full overflow-hidden">
-              <MarqueeBg />
-              <Card className="flex flex-col gap-4 p-[30]! max-w-[80%]">
-                <h1 className="w-full text-6xl text-center">PeteZah-Next</h1>
-                <h3 className="text-xl text-center text-wrap">
-                  Warning: This isn&apos;t a proxy... yet. Some websites may not
-                  work right now because they don&apos;t allow iframe embedding.
-                </h3>
-                <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-
-                    const form = e.currentTarget;
-
-                    const formData = new FormData(form);
-                    const query = (formData.get("search") as string)?.trim();
-                    if (!query) return;
-
-                    let url: string;
-                    try {
-                      url = new URL(query).toString();
-                    } catch {
-                      url = `https://duckduckgo.com/?q=${encodeURIComponent(
-                        query
-                      )}`;
-                    }
-
-                    let title = "No title";
-                    try {
-                      const res = await fetch(url);
-                      const html = await res.text();
-                      title =
-                        html.match(/<title>(.*?)<\/title>/i)?.[1] ?? title;
-                    } catch (err) {
-                      if (typeof window !== "undefined") {
-                        console.warn("Fetch failed (handled):", err);
-                      }
-                    }
-                    const newTab: Tab = { title, url };
-                    setTabs((prev) => [...prev, newTab]);
-                    setCurrentIndex(tabs.length);
-
-                    form.reset();
-                  }}
-                >
-                  <TextInputChildren name="search">
-                    <div className="flex items-center">
-                      <IoSearch />
-                    </div>
-                  </TextInputChildren>
-                </form>
-              </Card>
-            </div>
-          </>
         ) : (
-          <iframe
-            className="w-full h-full"
-            title={tabs[currentTabIndex].title}
-            src={tabs[currentTabIndex].url}
-          />
+          tabs.map((tab, index) =>
+            tab.url == "pzn://new-tab" ? (
+              <NewTab
+                key={index}
+                tabs={tabs}
+                setTabs={setTabs}
+                setCurrentIndex={setCurrentIndex}
+                className={currentTabIndex === index ? "block" : "hidden"}
+              />
+            ) : (
+              <iframe
+                key={index}
+                className={clsx(
+                  "w-full h-full z-20",
+                  !(currentTabIndex == index) && "w-0! h-0!"
+                )}
+                title={tab.url}
+                src={tab.url}
+              />
+            )
+          )
         )}
       </div>
     </div>

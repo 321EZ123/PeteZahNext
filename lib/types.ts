@@ -3,3 +3,8 @@ export interface SeeMoreProps {
     maxLength: number;
     className: string;
 }
+
+export interface Tab {
+  title: string;
+  url: string;
+}
