@@ -113,15 +113,19 @@ export default function Page() {
           <>
             <div className="flex items-center justify-center w-full h-full overflow-hidden">
               <MarqueeBg />
-              <Card className="flex flex-col gap-4 p-[30]!">
-                <h1 className="text-6xl">PeteZah-Next</h1>
-                <h3 className="text-xl text-center">
-                  Warning: This isn&apos;t a proxy... yet.
+              <Card className="flex flex-col gap-4 p-[30]! max-w-[80%]">
+                <h1 className="w-full text-6xl text-center">PeteZah-Next</h1>
+                <h3 className="text-xl text-center text-wrap">
+                  Warning: This isn&apos;t a proxy... yet. Some websites may not
+                  work right now because they don&apos;t allow iframe embedding.
                 </h3>
                 <form
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
+
+                    const form = e.currentTarget;
+
+                    const formData = new FormData(form);
                     const query = (formData.get("search") as string)?.trim();
                     if (!query) return;
 
@@ -134,11 +138,22 @@ export default function Page() {
                       )}`;
                     }
 
-                    const newTab: Tab = { title: "Loading...", url };
+                    let title = "No title";
+                    try {
+                      const res = await fetch(url);
+                      const html = await res.text();
+                      title =
+                        html.match(/<title>(.*?)<\/title>/i)?.[1] ?? title;
+                    } catch (err) {
+                      if (typeof window !== "undefined") {
+                        console.warn("Fetch failed (handled):", err);
+                      }
+                    }
+                    const newTab: Tab = { title, url };
                     setTabs((prev) => [...prev, newTab]);
                     setCurrentIndex(tabs.length);
 
-                    e.currentTarget.reset();
+                    form.reset();
                   }}
                 >
                   <TextInputChildren name="search">
@@ -152,6 +167,7 @@ export default function Page() {
           </>
         ) : (
           <iframe
+            className="w-full h-full"
             title={tabs[currentTabIndex].title}
             src={tabs[currentTabIndex].url}
           />
