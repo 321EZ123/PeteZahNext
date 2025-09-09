@@ -16,6 +16,7 @@ const MarqueeRow = ({ hoverPause }: { hoverPause?: boolean }) => {
           width={200}
           height={10}
           alt="PeteZah Logo"
+          unoptimized={process.env.NODE_ENV === "development"}
         />{" "}
         |
       </div>

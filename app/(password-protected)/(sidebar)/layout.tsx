@@ -8,7 +8,7 @@ import { TopbarProvider } from "@/context/topbar-content";
 import { Analytics } from "@vercel/analytics/next";
 import AntiScreenshotOverlay from "@/ui/anti-screenshot-overlay";
 import { Cloak } from "@/ui/cloak";
-import "../globals.css";
+import "@/app/globals.css"
 import Head from "next/head";
 import { geistMono } from "@/lib/fonts";
 import { CookiesProvider } from "next-client-cookies/server";
