@@ -39,6 +39,7 @@ export default function Page() {
         element: el,
         getData: () => ({ index }),
         onDrop: ({ source, self }) => {
+          setGlobalDragging(false);
           const from = (source?.data as { index: number })?.index;
           const to = (self?.data as { index: number })?.index;
           if (from === undefined || to === undefined) return true;
@@ -79,10 +80,6 @@ export default function Page() {
         onDragStart: () => {
           setDragging(true);
           setGlobalDragging(true);
-        },
-        onDrop: () => {
-          setDragging(false);
-          setGlobalDragging(false);
         },
         getInitialData: () => ({ index }),
       });
