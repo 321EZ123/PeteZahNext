@@ -26,10 +26,48 @@ export default function Page() {
     { title: "New Tab", url: "pzn://new-tab" },
   ]);
   const [currentTabIndex, setCurrentIndex] = useState<number>(0);
+  const [globalDragging, setGlobalDragging] = useState(false);
+
+  function DropArea({ index }: { index: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+
+      const cleanup = dropTargetForElements({
+        element: el,
+        getData: () => ({ index }),
+        onDrop: ({ source, self }) => {
+          const from = (source?.data as { index: number })?.index;
+          const to = (self?.data as { index: number })?.index;
+          if (from === undefined || to === undefined) return true;
+          setTabs((prevTabs) => {
+            const reordered = reorder(prevTabs, from, to);
+            setCurrentIndex(to >= reordered.length ? reordered.length - 1 : to);
+            return reordered;
+          });
+        },
+      });
+
+      return () => {
+        cleanup();
+      };
+    }, [index]);
+
+    return (
+      <div
+        ref={ref}
+        className={clsx(
+          "w-2 h-9 transition-colors duration-300 bg-blue-400 mx-1! rounded",
+          globalDragging ? "visible" : "invisible"
+        )}
+      />
+    );
+  }
 
   function TabComponent({ tab, index }: { tab: Tab; index: number }) {
-    const [dragging, setDragging] = useState<boolean>(false);
-
+    const [dragging, setDragging] = useState(false);
     const ref = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
@@ -38,26 +76,19 @@ export default function Page() {
 
       const cleanupDraggable = draggable({
         element: el,
-        onDragStart: () => setDragging(true),
-        onDrop: () => setDragging(false),
-        getInitialData: () => ({ index }),
-      });
-
-      const cleanupDropTarget = dropTargetForElements({
-        element: el,
-        getData: () => ({ index }),
-        onDrop: ({ source, self }) => {
-          const from = (source?.data as { index: number })?.index;
-          const to = (self?.data as { index: number })?.index;
-          if (from === undefined || to === undefined || from === to) return;
-          setTabs((prev) => reorder(prev, from, to));
-          setCurrentIndex(to);
+        onDragStart: () => {
+          setDragging(true);
+          setGlobalDragging(true);
         },
+        onDrop: () => {
+          setDragging(false);
+          setGlobalDragging(false);
+        },
+        getInitialData: () => ({ index }),
       });
 
       return () => {
         cleanupDraggable();
-        cleanupDropTarget();
       };
     }, [index]);
 
@@ -68,8 +99,8 @@ export default function Page() {
         title={tab.title}
         onClick={() => setCurrentIndex(index)}
         className={clsx(
-          `hover:bg-[#35537e] transition-all duration-200 rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]`,
-          index == currentTabIndex && "bg-[#35537e]!",
+          "hover:bg-[#35537e] transition-all duration-200 rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]",
+          index === currentTabIndex && "bg-[#35537e]!",
           dragging && "opacity-50"
         )}
       >
@@ -108,11 +139,18 @@ export default function Page() {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="w-full h-15 bg-[#1e324e] border-b-2 border-b-[#0096FF] flex gap-4 items-end px-4! overflow-x-auto z-10">
+      <div className="w-full h-15 bg-[#1e324e] border-b-2 border-b-[#0096FF] flex items-end pr-4! overflow-x-auto z-10">
         {tabs && tabs.length > 0 ? (
           <>
+            <div className="flex items-center">
+              <DropArea index={0} key="drop-0" />
+            </div>
+
             {tabs.map((tab, index) => (
-              <TabComponent index={index} tab={tab} key={index}></TabComponent>
+              <div key={index} className="flex items-center">
+                <TabComponent index={index} tab={tab} />
+                <DropArea index={index + 1} key={`drop-${index + 1}`} />
+              </div>
             ))}
             <button
               title="New tab"
@@ -152,7 +190,7 @@ export default function Page() {
                 setTabs={setTabs}
                 setCurrentIndex={setCurrentIndex}
                 className={clsx(
-                  "absolute top-0 left-0 w-full h-full transition-opacity duration-300",
+                  "absolute top-0 left-0 w-full h-full transition-opacity duration-500",
                   currentTabIndex === index
                     ? "opacity-100"
                     : "opacity-0 pointer-events-none"
