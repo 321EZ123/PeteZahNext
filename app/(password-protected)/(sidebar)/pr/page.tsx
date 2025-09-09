@@ -26,6 +26,8 @@ export default function Page() {
   const [currentTabIndex, setCurrentIndex] = useState<number>(0);
 
   function TabComponent({ tab, index }: { tab: Tab; index: number }) {
+    const [dragging, setDragging] = useState<boolean>(false);
+
     const ref = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
@@ -34,6 +36,8 @@ export default function Page() {
 
       const cleanupDraggable = draggable({
         element: el,
+        onDragStart: () => setDragging(true),
+        onDrop: () => setDragging(false),
         getInitialData: () => ({ index }),
       });
 
@@ -62,8 +66,9 @@ export default function Page() {
         title={tab.title}
         onClick={() => setCurrentIndex(index)}
         className={clsx(
-          `hover:bg-[#35537e] transition-all duration-300 rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]`,
-          index == currentTabIndex && "bg-[#35537e]!"
+          `hover:bg-[#35537e] transition-[opacity,transform] duration-[300ms,150ms] rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]`,
+          index == currentTabIndex && "bg-[#35537e]!",
+          dragging && "opacity-50"
         )}
       >
         <p className="overflow-hidden whitespace-nowrap text-ellipsis max-w-50">
@@ -123,7 +128,7 @@ export default function Page() {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-center w-full h-full">
+      <div className="relative flex items-center justify-center w-full h-full">
         {tabs.length == 0 ? (
           <PrimaryButtonChildren
             onClick={() =>
@@ -134,21 +139,28 @@ export default function Page() {
           </PrimaryButtonChildren>
         ) : (
           tabs.map((tab, index) =>
-            tab.url == "pzn://new-tab" ? (
+            tab.url === "pzn://new-tab" ? (
               <NewTab
                 key={index}
                 index={index}
                 tabs={tabs}
                 setTabs={setTabs}
                 setCurrentIndex={setCurrentIndex}
-                className={currentTabIndex === index ? "block" : "hidden"}
+                className={clsx(
+                  "absolute top-0 left-0 w-full h-full transition-opacity duration-300",
+                  currentTabIndex === index
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                )}
               />
             ) : (
               <iframe
                 key={index}
                 className={clsx(
-                  "w-full h-full z-20",
-                  !(currentTabIndex == index) && "w-0! h-0!"
+                  "absolute top-0 left-0 w-full h-full transition-opacity duration-300",
+                  currentTabIndex === index
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
                 )}
                 title={tab.url}
                 src={tab.url}
