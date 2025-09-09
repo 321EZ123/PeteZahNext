@@ -106,8 +106,8 @@ export default function Page() {
       <div
         ref={ref}
         className={clsx(
-          "w-2 h-9 transition-all duration-300 bg-blue-400 mx-2! rounded",
-          globalDragging ? "opacity-100" : "opacity-0"
+          "w-2 h-9 transition-opacity duration-300 bg-blue-400 mx-2! rounded",
+          globalDragging ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
       />
     );
