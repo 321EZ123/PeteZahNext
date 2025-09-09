@@ -68,7 +68,7 @@ export default function Page() {
         title={tab.title}
         onClick={() => setCurrentIndex(index)}
         className={clsx(
-          `hover:bg-[#35537e] transition-[opacity,transform] duration-[300ms,150ms] rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]`,
+          `hover:bg-[#35537e] transition-all duration-200 rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]`,
           index == currentTabIndex && "bg-[#35537e]!",
           dragging && "opacity-50"
         )}
