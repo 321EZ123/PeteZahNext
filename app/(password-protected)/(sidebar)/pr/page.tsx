@@ -2,7 +2,7 @@
 "use client";
 
 import { IoClose } from "react-icons/io5";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { PrimaryButtonChildren } from "@/ui/global/buttons";
 import clsx from "clsx";
@@ -11,7 +11,10 @@ import NewTab from "@/ui/proxy/new-tab";
 import {
   draggable,
   dropTargetForElements,
+  monitorForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
+import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
 import ProxyIframe from "@/ui/proxy/iframe";
 
 function reorder<T>(list: T[], start: number, end: number): T[] {
@@ -28,6 +31,62 @@ export default function Page() {
   const [currentTabIndex, setCurrentIndex] = useState<number>(0);
   const [globalDragging, setGlobalDragging] = useState(false);
 
+  const reorderTabs = useCallback(
+    ({
+      startIndex,
+      indexOfTarget,
+      closestEdgeOfTarget,
+    }: {
+      startIndex: number;
+      indexOfTarget: number;
+      closestEdgeOfTarget: "left" | "right" | null;
+    }) => {
+      const finishIndex = getReorderDestinationIndex({
+        startIndex,
+        closestEdgeOfTarget,
+        indexOfTarget,
+        axis: "horizontal",
+      });
+
+      if (finishIndex === startIndex) return;
+
+      setTabs((prev) => reorder(prev, startIndex, finishIndex));
+
+      setCurrentIndex(
+        finishIndex >= tabs.length ? tabs.length - 1 : finishIndex
+      );
+    },
+    [tabs.length]
+  );
+
+  useEffect(() => {
+    return monitorForElements({
+      onDragStart: () => setGlobalDragging(true),
+      onDrop: ({ location, source }) => {
+        setGlobalDragging(false);
+
+        const target = location.current.dropTargets[0];
+        if (!target) return;
+
+        const sourceIndex = (source.data as { index: number }).index;
+        const targetIndex = (target.data as { index: number }).index;
+        if (typeof sourceIndex !== "number" || typeof targetIndex !== "number")
+          return;
+
+        const closestEdge = extractClosestEdge(target.data);
+        const horizontalEdge =
+          closestEdge === "left" || closestEdge === "right"
+            ? closestEdge
+            : null;
+        reorderTabs({
+          startIndex: sourceIndex,
+          indexOfTarget: targetIndex,
+          closestEdgeOfTarget: horizontalEdge,
+        });
+      },
+    });
+  }, [reorderTabs]);
+
   function DropArea({ index }: { index: number }) {
     const ref = useRef<HTMLDivElement>(null);
 
@@ -38,54 +97,42 @@ export default function Page() {
       const cleanup = dropTargetForElements({
         element: el,
         getData: () => ({ index }),
-        onDrop: ({ source, self }) => {
-          setGlobalDragging(false);
-          const from = (source?.data as { index: number })?.index;
-          const to = (self?.data as { index: number })?.index;
-          if (from === undefined || to === undefined) return true;
-          setTabs((prevTabs) => {
-            const reordered = reorder(prevTabs, from, to);
-            setCurrentIndex(to >= reordered.length ? reordered.length - 1 : to);
-            return reordered;
-          });
-        },
       });
 
-      return () => {
-        cleanup();
-      };
+      return () => cleanup();
     }, [index]);
 
     return (
       <div
         ref={ref}
         className={clsx(
-          "w-2 h-9 transition-colors duration-300 bg-blue-400 mx-1! rounded",
-          globalDragging ? "visible" : "invisible"
+          "w-2 h-9 transition-all duration-300 bg-blue-400 mx-2! rounded",
+          globalDragging ? "opacity-100" : "opacity-0"
         )}
       />
     );
   }
 
   function TabComponent({ tab, index }: { tab: Tab; index: number }) {
-    const [dragging, setDragging] = useState(false);
     const ref = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
       const el = ref.current;
       if (!el) return;
 
-      const cleanupDraggable = draggable({
+      const cleanupDrag = draggable({
         element: el,
-        onDragStart: () => {
-          setDragging(true);
-          setGlobalDragging(true);
-        },
-        getInitialData: () => ({ index }),
+        getInitialData: () => ({ index }),  
+      });
+
+      const cleanupDrop = dropTargetForElements({
+        element: el,
+        getData: () => ({ index }),
       });
 
       return () => {
-        cleanupDraggable();
+        cleanupDrag();
+        cleanupDrop();
       };
     }, [index]);
 
@@ -97,8 +144,7 @@ export default function Page() {
         onClick={() => setCurrentIndex(index)}
         className={clsx(
           "hover:bg-[#35537e] transition-all duration-200 rounded-t-2xl px-2! py-1! min-w-30 max-w-70 overflow-ellipsis overflow-y-hidden h-10 flex items-center justify-between border-t-2 border-x-2 border-[#0096FF]",
-          index === currentTabIndex && "bg-[#35537e]!",
-          dragging && "opacity-50"
+          index === currentTabIndex && "bg-[#35537e]!"
         )}
       >
         {tab.faviconUrl && (
@@ -115,9 +161,8 @@ export default function Page() {
               setCurrentIndex((prevIndex) => {
                 if (index < prevIndex) return prevIndex - 1;
                 if (index === prevIndex) {
-                  if (prevIndex >= newTabs.length) {
+                  if (prevIndex >= newTabs.length)
                     return Math.max(newTabs.length - 1, 0);
-                  }
                   return prevIndex;
                 }
                 return prevIndex;
@@ -136,10 +181,10 @@ export default function Page() {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="w-full h-15 bg-[#1e324e] border-b-2 border-b-[#0096FF] flex items-end pr-4! overflow-x-auto z-10">
+      <div className="w-full h-15 bg-[#1e324e] border-b-2 border-b-[#0096FF] flex items-end pl-2! pr-4! overflow-x-auto z-10">
         {tabs && tabs.length > 0 ? (
           <>
-            <div className="flex items-center">
+            <div className="flex items-center h-[40px]">
               <DropArea index={0} key="drop-0" />
             </div>
 
