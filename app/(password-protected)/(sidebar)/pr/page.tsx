@@ -74,7 +74,7 @@ export default function Page() {
         )}
       >
         {tab.faviconUrl && (
-          <img alt={tab.url} src={tab.faviconUrl} className="mr-2!" />
+          <img alt={tab.url} src={tab.faviconUrl} className="mr-2! ml-1!" />
         )}
         <p className="overflow-hidden whitespace-nowrap text-ellipsis max-w-50">
           {tab.title}
@@ -97,7 +97,7 @@ export default function Page() {
               return newTabs;
             });
           }}
-          className="cursor-pointer hover:bg-[#7a92b3] transition-all duration-300 rounded-full"
+          className="cursor-pointer hover:bg-[#7a92b3] transition-all duration-300 rounded-full ml-1!"
           title="Close tab"
         >
           <IoClose />

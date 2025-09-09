@@ -50,6 +50,11 @@ export default function NewTab({
                 const res = await fetch(url);
                 const html = await res.text();
                 title = html.match(/<title>(.*?)<\/title>/i)?.[1] ?? title;
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const titleElement = doc.querySelector('title');
+                if (titleElement) title = titleElement.innerText
               } catch (err) {
                 if (typeof window !== "undefined") {
                   console.warn("Fetch failed (handled):", err);
