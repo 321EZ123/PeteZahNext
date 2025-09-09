@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { IoClose } from "react-icons/io5";
@@ -11,6 +12,7 @@ import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import ProxyIframe from "@/ui/proxy/iframe";
 
 function reorder<T>(list: T[], start: number, end: number): T[] {
   const result = [...list];
@@ -71,6 +73,9 @@ export default function Page() {
           dragging && "opacity-50"
         )}
       >
+        {tab.faviconUrl && (
+          <img alt={tab.url} src={tab.faviconUrl} className="mr-2!" />
+        )}
         <p className="overflow-hidden whitespace-nowrap text-ellipsis max-w-50">
           {tab.title}
         </p>
@@ -154,16 +159,12 @@ export default function Page() {
                 )}
               />
             ) : (
-              <iframe
+              <ProxyIframe
+                setTabs={setTabs}
+                currentTabIndex={currentTabIndex}
+                index={index}
+                tab={tab}
                 key={index}
-                className={clsx(
-                  "absolute top-0 left-0 w-full h-full transition-opacity duration-300",
-                  currentTabIndex === index
-                    ? "opacity-100"
-                    : "opacity-0 pointer-events-none"
-                )}
-                title={tab.url}
-                src={tab.url}
               />
             )
           )

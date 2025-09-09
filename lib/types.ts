@@ -7,4 +7,5 @@ export interface SeeMoreProps {
 export interface Tab {
   title: string;
   url: string;
+  faviconUrl?: string; 
 }
