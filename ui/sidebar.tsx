@@ -121,6 +121,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                 height={40}
                 width={40}
                 alt="PeteZah"
+                unoptimized={process.env.NODE_ENV === "development"}
               />
             </Link>
             <div

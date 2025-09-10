@@ -249,6 +249,10 @@ export default function Page() {
     playerVars: {
       autoplay: 1,
     },
+    host: "https://www.youtube.com", 
+    controls: 0,
+    modestbranding: 1,
+    rel: 0,
   };
 
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
@@ -364,7 +368,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="absolute top-2 w-full flex justify-center items-center">
+      <div className="absolute flex items-center justify-center w-full top-16 md:top-2">
         <div className="max-w-[560px] max-h-[80vh] overflow-y-auto transition-all z-100 border-2 border-white p-2! rounded-2xl bg-gray-400/10 backdrop-blur-md backdrop-filter hover:bg-gray-200/20 focus:bg-white/30">
           <div className="flex items-center justify-center gap-2">
             <FaSearch />
@@ -408,7 +412,7 @@ export default function Page() {
                     />
                     <div>
                       <p className="text-white">{track.name}</p>
-                      <p className="text-white/70 text-sm">
+                      <p className="text-sm text-white/70">
                         {track.artist.name}
                       </p>
                     </div>
@@ -455,9 +459,9 @@ export default function Page() {
                 className="info flex flex-col justify-center w-[400px]"
                 id="playerInfo"
               >
-                <div className="top-icons flex items-center gap-3">
+                <div className="flex items-center gap-3 top-icons">
                   <MarqueeText
-                    className="text-3xl flex-1 overflow-y-hidden"
+                    className="flex-1 overflow-y-hidden text-3xl"
                     text={
                       queue &&
                       queue.length > 0 &&
@@ -516,12 +520,16 @@ export default function Page() {
                 <div>
                   <div className="flex gap-3 mb-[10px]! w-full items-center justify-center">
                     <button
+                      type="button"
+                      title="Seek backwards 10s"
                       onClick={seekBackwards10}
                       className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
                     >
                       <FaBackward id="backward10" className="size-full" />
                     </button>
                     <button
+                      type="button"
+                      title="Seek backwards 5s"
                       onClick={seekBackwards5}
                       className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
                     >
@@ -532,6 +540,8 @@ export default function Page() {
                         {playerState == 1 ? (
                           <>
                             <button
+                              type="button"
+                              title="Pause song"
                               onClick={pauseSong}
                               className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
                             >
@@ -541,6 +551,8 @@ export default function Page() {
                         ) : playerState == 2 ? (
                           <>
                             <button
+                              type="button"
+                              title="Resume song"
                               onClick={resumeSong}
                               className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
                             >
@@ -548,7 +560,11 @@ export default function Page() {
                             </button>
                           </>
                         ) : (
-                          <button className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center">
+                          <button
+                            type="button"
+                            title="Placeholder play button"
+                            className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
+                          >
                             <FaPlay className="size-full" />
                           </button>
                         )}
@@ -561,12 +577,16 @@ export default function Page() {
                       </>
                     )}
                     <button
+                      type="button"
+                      title="Seek forwards 5s"
                       onClick={seekForwards5}
                       className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
                     >
                       <FaChevronRight id="forward5" className="size-full" />
                     </button>
                     <button
+                      type="button"
+                      title="Seek forwards 10s"
                       onClick={seekForwards10}
                       className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
                     >
@@ -580,6 +600,8 @@ export default function Page() {
                         {repeating === false ? (
                           <>
                             <button
+                              type="button"
+                              title="Repeat song"
                               onClick={() => {
                                 setRepeating(true);
                               }}
@@ -591,6 +613,8 @@ export default function Page() {
                         ) : repeating === true ? (
                           <>
                             <button
+                              type="button"
+                              title="Repeat song once"
                               onClick={() => {
                                 setRepeating(1);
                               }}
@@ -602,6 +626,8 @@ export default function Page() {
                         ) : (
                           <>
                             <button
+                              type="button"
+                              title="Don't song"
                               onClick={() => {
                                 setRepeating(false);
                               }}
@@ -619,12 +645,19 @@ export default function Page() {
                         </div>
                       </>
                     )}
-                    <button onClick={shuffleQueue} className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center">
+                    <button
+                      type="button"
+                      title="Shuffle queue"
+                      onClick={shuffleQueue}
+                      className="bg-white/10 hover:bg-white/40 transition-all duration-400 rounded-full aspect-square size-10 text-white p-3! flex items-center justify-center"
+                    >
                       <FaShuffle className="size-full" />
                     </button>
                     {muted ? (
                       <>
                         <button
+                          type="button"
+                          title="Unmute audio"
                           onClick={() => {
                             setMuted(false);
                             playerRef.current?.unMute();
@@ -637,6 +670,8 @@ export default function Page() {
                     ) : (
                       <>
                         <button
+                          type="button"
+                          title="Mute audio"
                           onClick={() => {
                             setMuted(true);
                             playerRef.current?.mute();
@@ -653,8 +688,9 @@ export default function Page() {
                 queue.length > 0 &&
                 currentTrackIndex != null &&
                 currentTrackIndex <= queue.length - 1 ? (
-                  <div className="w-full flex items-center gap-2">
+                  <div className="flex items-center w-full gap-2">
                     <input
+                      title="seeker"
                       type="range"
                       min={0}
                       max={queue[currentTrackIndex].duration}
@@ -685,7 +721,7 @@ export default function Page() {
                     <div className="h-[6px] bg-white/20 rounded-3xl relative hover:h-[12px] transition-all duration-300 w-full"></div>
                   </>
                 )}
-                <div className="timecodes flex justify-between mt-1">
+                <div className="flex justify-between mt-1 timecodes">
                   <span>{formatTime(currentTime)}</span>
                   <span>
                     {queue &&
@@ -723,7 +759,7 @@ export default function Page() {
           0 && (
           <>
             <div className="flex flex-col gap-2 max-w-[30%] rounded-[12px] border-2 border-[#0096FF] backdrop-blur-md backdrop-filter backdrop-opacity-50 bg-[#0A1D37] p-[20px]! overflow-auto max-h-[80%]">
-              <div className="flex w-full justify-center items-center gap-2">
+              <div className="flex items-center justify-center w-full gap-2">
                 <PrimaryButton
                   text="Queue"
                   className={clsx(sideMenuPage == "queue" && "bg-gray-800")}
@@ -777,10 +813,10 @@ export default function Page() {
                             <div className="flex flex-col gap-1">
                               <MarqueeText
                                 text={trackData.name}
-                                className="text-left overflow-x-auto"
+                                className="overflow-x-auto text-left"
                               />
                               <MarqueeText
-                                className="text-white/70 text-sm border-white/70 text-left"
+                                className="text-sm text-left text-white/70 border-white/70"
                                 text={trackData.artist.name}
                               />
                             </div>
@@ -788,6 +824,8 @@ export default function Page() {
                         </button>
                         <div>
                           <button
+                            type="button"
+                            title="Remove song from queue"
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
@@ -839,9 +877,10 @@ export default function Page() {
                         >
                           {" "}
                           <button
+                            type="button"
                             onClick={() => {
                               // i know this logic is stupid but its because setState is async
-                              if (queue?.length == 0) {
+                              if (queue?.length == 0 || queue == null) {
                                 addSongToQueue(trackData);
                                 setCurrentTrackIndex(0);
                               } else {
@@ -866,10 +905,10 @@ export default function Page() {
                               <div className="flex flex-col gap-1">
                                 <MarqueeText
                                   text={trackData?.name}
-                                  className="text-left overflow-x-auto"
+                                  className="overflow-x-auto text-left"
                                 />
                                 <MarqueeText
-                                  className="text-white/70 text-sm border-white/70 text-left"
+                                  className="text-sm text-left text-white/70 border-white/70"
                                   text={trackData?.artist?.name}
                                 />
                               </div>
@@ -877,6 +916,8 @@ export default function Page() {
                           </button>
                           <div>
                             <button
+                              type="button"
+                              title="Un-star song"
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
