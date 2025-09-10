@@ -46,8 +46,6 @@ export function PageAdBanner() {
         return;
       }
 
-      setToggled(true);
-
       const res = await fetch(`/api/is-booster?user_id=${userId}`, {
         method: "POST",
         body: JSON.stringify({ user_id: userId }),
@@ -65,13 +63,17 @@ export function PageAdBanner() {
       }
     }
 
+    // 🚀 Use cached value first (instant UI decision)
     const boosterStatus = localStorage.getItem("isBooster");
     if (boosterStatus === "true") {
-      setToggled(false);
+      setToggled(false); // don’t show ads
+    } else if (boosterStatus === "false") {
+      setToggled(true); // show ads
     } else {
-      setToggled(true);
+      setToggled(true); // default if unknown
     }
 
+    // Then confirm with Supabase + API
     supabase.auth.getSession().then(({ data: { session } }) => {
       const user = session?.user;
       if (user) {
