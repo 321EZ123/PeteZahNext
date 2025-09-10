@@ -14,7 +14,6 @@ import { geistMono } from "@/lib/fonts";
 import { CookiesProvider } from "next-client-cookies/server";
 import { SupabaseAuthListener } from "@/ui/client-providers";
 import SettingsProvider from "@/ui/settings-manager";
-import Script from "next/script";
 import AdBanner from "@/ui/ad-banner";
 
 export const metadata: Metadata = {

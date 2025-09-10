@@ -21,7 +21,6 @@ import {
 import Card from "@/ui/global/card";
 import Link from "next/link";
 import { IoIosClose } from "react-icons/io";
-import { PageAdBanner } from "@/ui/ad-banner";
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -380,7 +379,6 @@ export default function Page() {
           </div>
         </button>
       </div>
-      <PageAdBanner />
     </div>
   );
 }

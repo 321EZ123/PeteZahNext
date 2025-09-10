@@ -40,14 +40,14 @@ export function PageAdBanner() {
         data-cfasync="false"
         src="//pl27611320.revenuecpmgate.com/3438d5cb0f1e239f554fefbd6dfef939/invoke.js"
       ></Script>
-      <div className={clsx("absolute bottom-0 z-10 flex justify-center w-full transition-all duration-300 scale-50", toggled ? "opacity-100" : "opacity-0")}>
+      <div className={clsx("absolute bottom-0 z-10 flex justify-center w-full transition-all duration-300 scale-50 text-white", toggled ? "opacity-100" : "opacity-0")}>
         <div className="relative max-w-1/2">
           <div
             className="bg-black w-full rounded-2xl p-4!"
             id="container-3438d5cb0f1e239f554fefbd6dfef939"
           ></div>
-          <button type="button" title="Close ads" onClick={() => setToggled(false)} className="absolute bg-black border-2 border-white rounded-full w-15 h-15 -right-[7.5] -top-[7.5]">
-            <IoClose />
+          <button type="button" title="Close ads" onClick={() => setToggled(false)} className="absolute flex items-center justify-center bg-black border-2 border-white rounded-full w-15 h-15 -top-8 -right-8">
+            <IoClose size={40} />
           </button>
         </div>
       </div>

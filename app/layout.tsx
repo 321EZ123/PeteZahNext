@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./tw.css";
 import GooglebotVerifier from "@/ui/googlebot-verifier";
 import AdManager from "@/ui/ad-manager";
+import { PageAdBanner } from "@/ui/ad-banner";
 
 export default function RootLayout({
   children,
@@ -88,6 +89,7 @@ export default function RootLayout({
         </noscript>
         <GooglebotVerifier />
         {children}
+        <PageAdBanner />
       </body>
     </html>
   );
