@@ -1,6 +1,8 @@
 "use client";
 
+import { createClient } from "@/utils/supabase/client";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -33,10 +35,50 @@ export default function AdBanner() {
 
 export function PageAdBanner() {
   const [toggled, setToggled] = useState(false);
+  const supabase = createClient();
+  const pathname = usePathname();
 
   useEffect(() => {
-    setToggled(true);
-  }, []);
+    async function checkUserBooster(userId: string) {
+      if (!userId) return setToggled(true);
+
+      setToggled(true);
+
+      const res = await fetch(`/api/is-booster?user_id=${userId}`, {
+        method: "POST",
+        body: JSON.stringify({ user_id: userId }),
+      });
+
+      if (!res.ok) return;
+
+      const json = await res.json();
+      if (json.isBooster) {
+        setToggled(false);
+      }
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const user = session?.user;
+      if (user) {
+        checkUserBooster(user.id);
+      } else {
+        setToggled(true);
+      }
+    });
+  }, [pathname, supabase.auth]);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://pl27611320.revenuecpmgate.com/3438d5cb0f1e239f554fefbd6dfef939/invoke.js";
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+
+    document.body.appendChild(script);
+    return () => {
+      script.remove();
+    };
+  }, [pathname]);
 
   return (
     <>
@@ -46,18 +88,21 @@ export function PageAdBanner() {
         src="https://pl27611320.revenuecpmgate.com/3438d5cb0f1e239f554fefbd6dfef939/invoke.js"
         strategy="afterInteractive"
       />
+
       {toggled && (
         <div
           className={clsx(
-            "absolute bottom-0 z-10 flex justify-center text-white! w-full transition-all duration-300 scale-50 ",
+            "absolute bottom-0 z-10 flex justify-center text-white! w-full transition-all duration-300 scale-50",
             toggled ? "opacity-100" : "opacity-0"
           )}
         >
           <div className="relative max-w-1/2">
             <div
+              key={pathname}
               className="bg-black w-full rounded-2xl p-4! text-white!"
               id="container-3438d5cb0f1e239f554fefbd6dfef939"
             ></div>
+
             <button
               type="button"
               title="Close ads"
