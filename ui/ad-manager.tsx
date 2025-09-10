@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 export default function AdManager() {
+
   const supabase = createClient();
   const scriptId = "adsbygoogle-script";
   const scriptSrc =
