@@ -40,7 +40,11 @@ export function PageAdBanner() {
 
   useEffect(() => {
     async function checkUserBooster(userId: string) {
-      if (!userId) return setToggled(true);
+      if (!userId) {
+        setToggled(true);
+        localStorage.setItem("isBooster", "false");
+        return;
+      }
 
       setToggled(true);
 
@@ -54,7 +58,18 @@ export function PageAdBanner() {
       const json = await res.json();
       if (json.isBooster) {
         setToggled(false);
+        localStorage.setItem("isBooster", "true");
+      } else {
+        setToggled(true);
+        localStorage.setItem("isBooster", "false");
       }
+    }
+
+    const boosterStatus = localStorage.getItem("isBooster");
+    if (boosterStatus === "true") {
+      setToggled(false);
+    } else {
+      setToggled(true);
     }
 
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -63,6 +78,7 @@ export function PageAdBanner() {
         checkUserBooster(user.id);
       } else {
         setToggled(true);
+        localStorage.setItem("isBooster", "false");
       }
     });
   }, [pathname, supabase.auth]);
