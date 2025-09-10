@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import clsx from "clsx";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { useEffect } from "react";
@@ -115,11 +116,13 @@ export function PageAdBanner() {
           )}
         >
           <div className="relative max-w-1/2">
-            <div
-              key={pathname}
-              className="bg-black w-full rounded-2xl p-4! text-white!"
-              id="container-3438d5cb0f1e239f554fefbd6dfef939"
-            ></div>
+            <div className="bg-black w-full rounded-2xl p-4! text-white!">
+              <div
+                key={pathname}
+                id="container-3438d5cb0f1e239f554fefbd6dfef939"
+              ></div>
+              {pathname != "/" && <p className="text-xl text-center">Boost our <Link href="/discord" className="text-blue-500 underline">Discord Server</Link> to remove Ads!</p>}
+            </div>
 
             <button
               type="button"
