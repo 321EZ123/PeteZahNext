@@ -55,14 +55,14 @@ export function PageAdBanner() {
         >
           <div className="relative max-w-1/2">
             <div
-              className="bg-black w-full rounded-2xl p-4!"
+              className="bg-black w-full rounded-2xl p-4! text-white!"
               id="container-3438d5cb0f1e239f554fefbd6dfef939"
             ></div>
             <button
               type="button"
               title="Close ads"
               onClick={() => setToggled(false)}
-              className="absolute flex items-center justify-center bg-black border-2 border-white rounded-full w-15 h-15 -top-8 -right-8"
+              className="absolute flex items-center justify-center bg-black border-2 border-white rounded-full w-15 h-15 -top-8 -right-8 text-white!"
             >
               <IoClose size={40} />
             </button>
