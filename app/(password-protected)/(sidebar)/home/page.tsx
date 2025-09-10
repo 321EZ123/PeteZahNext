@@ -21,6 +21,7 @@ import {
 import Card from "@/ui/global/card";
 import Link from "next/link";
 import { IoIosClose } from "react-icons/io";
+import Script from "next/script";
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -309,9 +310,7 @@ export default function Page() {
               {"<"}
             </button>
 
-            <div
-              className="z-20 w-full overflow-hidden gh-image-wrapper [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] [--tw-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [--tw-webkit-mask-repeat:no-repeat] [--tw-webkit-mask-size:100%_100%]"
-            >
+            <div className="z-20 w-full overflow-hidden gh-image-wrapper [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] [--tw-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [--tw-webkit-mask-repeat:no-repeat] [--tw-webkit-mask-size:100%_100%]">
               <div
                 ref={containerRef}
                 className={`flex items-center gh-image-container w-max translate-x-[${
@@ -323,7 +322,8 @@ export default function Page() {
                   <div
                     key={index}
                     className={clsx(
-                      "relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box w-[${}]", `w-[${imageWidth}px]`
+                      "relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box w-[${}]",
+                      `w-[${imageWidth}px]`
                     )}
                     onClick={redirectToGames}
                   >
@@ -379,6 +379,17 @@ export default function Page() {
             {currentImage.caption}
           </div>
         </button>
+      </div>
+      <Script
+        async={true}
+        data-cfasync="false"
+        src="//pl27611320.revenuecpmgate.com/3438d5cb0f1e239f554fefbd6dfef939/invoke.js"
+      ></Script>
+      <div className="absolute bottom-0 z-10 flex justify-center w-full scale-50">
+        <div
+          className="bg-black max-w-1/2 rounded-2xl p-4!"
+          id="container-3438d5cb0f1e239f554fefbd6dfef939"
+        ></div>
       </div>
     </div>
   );
