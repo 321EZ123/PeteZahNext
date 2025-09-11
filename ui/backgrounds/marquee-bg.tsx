@@ -62,6 +62,7 @@ const MarqueeRow = ({
 
   useEffect(() => {
     if (type === "new") {
+      setColor(colors[Math.floor(Math.random() * colors.length)]);
       const interval = setInterval(() => {
         setFade(false);
         setTimeout(() => {
