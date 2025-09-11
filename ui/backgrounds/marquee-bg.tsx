@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import Image from "next/image";
 import clsx from "clsx";
+import { createClient } from "@/utils/supabase/client";
 
 const messages = [
   "PeteZah Games 🎮 |",
@@ -44,22 +45,34 @@ const colors = [
   "text-teal-300",
 ];
 
-const MarqueeRow = ({ hoverPause }: { hoverPause?: boolean }) => {
-  const [pair, setPair] = useState(getRandomMessagePair());
+const MarqueeRow = ({
+  hoverPause,
+  type,
+}: {
+  hoverPause?: boolean;
+  type: "new" | "old";
+}) => {
+  const [pair, setPair] = useState(
+    type === "old"
+      ? ["PeteZah Games 🎮 |", "PeteZah Games 🎮 |"]
+      : getRandomMessagePair()
+  );
   const [fade, setFade] = useState(true);
   const [color, setColor] = useState(colors[0]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setPair(getRandomMessagePair());
-        setColor(colors[Math.floor(Math.random() * colors.length)]);
-        setFade(true);
-      }, 500);
-    }, 20000);
-    return () => clearInterval(interval);
-  }, []);
+    if (type === "new") {
+      const interval = setInterval(() => {
+        setFade(false);
+        setTimeout(() => {
+          setPair(getRandomMessagePair());
+          setColor(colors[Math.floor(Math.random() * colors.length)]);
+          setFade(true);
+        }, 500);
+      }, 20000);
+      return () => clearInterval(interval);
+    }
+  }, [type]);
 
   return (
     <Marquee
@@ -69,10 +82,10 @@ const MarqueeRow = ({ hoverPause }: { hoverPause?: boolean }) => {
       className={clsx(
         "flex-1 h-1/5 flex items-center text-[10vh] font-bold overflow-y-hidden transition-opacity duration-500",
         fade ? "opacity-100" : "opacity-0",
-        color
+        type === "new" ? color : "text-white"
       )}
     >
-      {[...pair].map((msg, i) => (
+      {pair.map((msg, i) => (
         <div key={i} className="flex items-center mr-5!">
           {msg}
           <Image
@@ -96,16 +109,69 @@ export default function MarqueeBg({
   hoverPause?: boolean;
   className?: string;
 }) {
+  const [bgType, setBgType] = useState<"new" | "old" | "hide">("new");
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    const stored = localStorage.getItem("backgroundType");
+
+    if (stored === "old" || stored === "hide" || stored === "new") {
+      setBgType(stored);
+    } else {
+      setBgType("new");
+    }
+
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      const user = session?.user;
+
+      if (!user) return;
+
+      const res = await fetch(
+        `/api/private-profile?user_id=${session.user.id}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            user_id: user.id,
+          }),
+        }
+      );
+
+      const json = await res.json();
+
+      if ("backgroundType" in json) {
+        console.log(json.backgroundType);
+      }
+    });
+  }, [supabase.auth]);
+
+  if (bgType === "hide") return null;
+
   return (
     <div className={`absolute inset-0 z-0 overflow-hidden ${className}`}>
       <div className="absolute -inset-[20%] -rotate-12 opacity-75">
         <div className="w-full h-full">
           <div className="flex flex-col h-full">
-            <MarqueeRow hoverPause={hoverPause} />
-            <MarqueeRow hoverPause={hoverPause} />
-            <MarqueeRow hoverPause={hoverPause} />
-            <MarqueeRow hoverPause={hoverPause} />
-            <MarqueeRow hoverPause={hoverPause} />
+            <MarqueeRow
+              type={bgType === "old" ? "old" : "new"}
+              hoverPause={hoverPause}
+            />
+            <MarqueeRow
+              type={bgType === "old" ? "old" : "new"}
+              hoverPause={hoverPause}
+            />
+            <MarqueeRow
+              type={bgType === "old" ? "old" : "new"}
+              hoverPause={hoverPause}
+            />
+            <MarqueeRow
+              type={bgType === "old" ? "old" : "new"}
+              hoverPause={hoverPause}
+            />
+            <MarqueeRow
+              type={bgType === "old" ? "old" : "new"}
+              hoverPause={hoverPause}
+            />
           </div>
         </div>
       </div>
