@@ -1,30 +1,101 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import Image from "next/image";
+import clsx from "clsx";
+
+const messages = [
+  "PeteZah Games 🎮 |",
+  "PeteZah-Next ⚡ |",
+  "Thanks for visiting our site! 🙌 |",
+  "Happy to have you! 😄 |",
+  "The #1 Proxy 🥇 |",
+  "Fast, Secure, Reliable 🚀 |",
+  "Made with ❤️ by PeteZah and more 🌟 |",
+  "Serving fun since 2025 🎉 |",
+  "Browse freely 😊 |",
+  "Innovation starts here 💡 |",
+  "Where speed meets style 😎 |",
+  "Freedom to explore 🌍 |",
+  "Unlock the web 🔓 |",
+  "Always improving ✨ |",
+  "Your gateway to the internet 🌐 |",
+  "Blazing fast ⚡ |",
+  "Stay connected 🤝 |",
+  "Safe and secure 🔒 |",
+  "Fun without limits 🪐 |",
+  "Discover something new 🔍 |",
+  "Power to the players 🧠 |",
+];
+
+function getRandomMessagePair() {
+  const i1 = Math.floor(Math.random() * messages.length);
+  const i2 = Math.floor(Math.random() * messages.length);
+  return [messages[i1], messages[i2]];
+}
+
+const colors = [
+  "text-red-400",
+  "text-blue-400",
+  "text-yellow-300",
+  "text-green-400",
+  "text-orange-300",
+  "text-teal-300",
+];
 
 const MarqueeRow = ({ hoverPause }: { hoverPause?: boolean }) => {
+  const [pair, setPair] = useState(getRandomMessagePair());
+  const [fade, setFade] = useState(true);
+  const [color, setColor] = useState(colors[0]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setPair(getRandomMessagePair());
+        setColor(colors[Math.floor(Math.random() * colors.length)]);
+        setFade(true);
+      }, 500);
+    }, 20000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Marquee
       speed={150}
       autoFill={true}
-      pauseOnHover={hoverPause ? true : false}
-      className="flex-1 h-1/5 z-[0] flex items-center text-[10vh] font-bold text-white overflow-y-hidden"
+      pauseOnHover={hoverPause}
+      className={clsx(
+        "flex-1 h-1/5 flex items-center text-[10vh] font-bold overflow-y-hidden transition-opacity duration-500",
+        fade ? "opacity-100" : "opacity-0",
+        color
+      )}
     >
-      <div className="flex items-center mr-5!">
-        PeteZah Games |{" "}
-        <Image
-          src={"/logo-png-removebg-preview.png"}
-          width={200}
-          height={10}
-          alt="PeteZah Logo"
-          unoptimized={process.env.NODE_ENV === "development"}
-        />{" "}
-        |
-      </div>
+      {[...pair].map((msg, i) => (
+        <div key={i} className="flex items-center mr-5!">
+          {msg}
+          <Image
+            src={"/logo-png-removebg-preview.png"}
+            width={200}
+            height={10}
+            alt="PeteZah Logo"
+            unoptimized={process.env.NODE_ENV === "development"}
+          />{" "}
+          |
+        </div>
+      ))}
     </Marquee>
   );
 };
 
-export default function MarqueeBg({ hoverPause, className }: { hoverPause?: boolean, className?: string}) {
+export default function MarqueeBg({
+  hoverPause,
+  className,
+}: {
+  hoverPause?: boolean;
+  className?: string;
+}) {
   return (
     <div className={`absolute inset-0 z-0 overflow-hidden ${className}`}>
       <div className="absolute -inset-[20%] -rotate-12 opacity-75">
