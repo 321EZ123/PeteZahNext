@@ -29,11 +29,12 @@ export function CustomizationCard() {
     setBgType(newType);
     localStorage.setItem("backgroundType", newType);
     const user = (await supabase.auth.getUser()).data.user;
-    if (!user) return;
+    if (!user) return window.location.reload();
     await supabase
       .from("profiles_private")
       .update({ background_type: newType })
       .eq("id", user.id);
+    window.location.reload();
   };
 
   return (
