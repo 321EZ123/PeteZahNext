@@ -34,7 +34,11 @@ export async function POST(req: Request) {
 
     const dcData = await res.json();
 
-    const isBooster = dcData.roles?.includes("1341154772006211666");
+    // Boosters, mods and developers
+    const isBooster =
+      dcData.roles?.includes("1341154772006211666") ||
+      dcData.roles?.includes("1409270467226894387") ||
+      dcData.roles?.includes("1406629094623412244");
 
     return NextResponse.json({ isBooster });
   } catch (error) {

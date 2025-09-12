@@ -14,6 +14,7 @@ import { geistMono } from "@/lib/fonts";
 import { CookiesProvider } from "next-client-cookies/server";
 import { SupabaseAuthListener } from "@/ui/client-providers";
 import SettingsProvider from "@/ui/settings-manager";
+import AdBanner from "@/ui/ad-banner";
 
 export const metadata: Metadata = {
   description: "The next generation of PeteZah, privacy tool",
@@ -52,6 +53,7 @@ export default function RootLayout({
       <div
         className={`text-[#ededed] min-h-screen bg-[#0a0a0a] ${geistMono.className}`}
       >
+        <AdBanner />
         <Cloak>
           <AntiScreenshotOverlay />
           <Particles />

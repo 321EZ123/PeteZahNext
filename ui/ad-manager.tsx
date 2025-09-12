@@ -29,7 +29,10 @@ export default function AdManager() {
 
   useEffect(() => {
     async function checkUserBooster(userId: string) {
-      if (!userId) return appendAdScript();
+      if (!userId) {
+        appendAdScript();
+        return;
+      }
 
       const res = await fetch(`/api/is-booster?user_id=${userId}`, {
         method: "POST",
@@ -40,13 +43,18 @@ export default function AdManager() {
 
       const json = await res.json();
       if (json.isBooster) {
+        localStorage.setItem("isBooster", "true");
         removeAdScript();
       } else {
+        localStorage.setItem("isBooster", "false");
         appendAdScript();
       }
     }
 
-    appendAdScript();
+    const boosterStatus = localStorage.getItem("isBooster");
+    if (boosterStatus !== "true") {
+      appendAdScript();
+    }
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       const user = session?.user;
@@ -56,10 +64,10 @@ export default function AdManager() {
     });
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (_event, session) => {
         const user = session?.user;
-
         if (!user) {
+          localStorage.setItem("isBooster", "false");
           appendAdScript();
         } else {
           checkUserBooster(user.id);

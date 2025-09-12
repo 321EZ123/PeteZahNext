@@ -309,9 +309,7 @@ export default function Page() {
               {"<"}
             </button>
 
-            <div
-              className="z-20 w-full overflow-hidden gh-image-wrapper [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] [--tw-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [--tw-webkit-mask-repeat:no-repeat] [--tw-webkit-mask-size:100%_100%]"
-            >
+            <div className="z-20 w-full overflow-hidden gh-image-wrapper [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] [--tw-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [--tw-webkit-mask-repeat:no-repeat] [--tw-webkit-mask-size:100%_100%]">
               <div
                 ref={containerRef}
                 className={`flex items-center gh-image-container w-max translate-x-[${
@@ -323,7 +321,8 @@ export default function Page() {
                   <div
                     key={index}
                     className={clsx(
-                      "relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box w-[${}]", `w-[${imageWidth}px]`
+                      "relative flex flex-col z-10 border-[#0096FF] border-2 group items-center text-center cursor-pointer rounded-md overflow-hidden gh-image-box w-[${}]",
+                      `w-[${imageWidth}px]`
                     )}
                     onClick={redirectToGames}
                   >

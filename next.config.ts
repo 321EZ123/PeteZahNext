@@ -6,6 +6,15 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/discord',
+        destination: 'https://discord.gg/cYjHFDguxS',
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     optimizePackageImports: ["@heroicons/react"],
   },
