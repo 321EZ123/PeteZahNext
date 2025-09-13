@@ -10,6 +10,8 @@ import { FaGithub, FaGoogle, FaDiscord, FaTwitch } from "react-icons/fa";
 export default function LoginPage() {
   const [user, setUser] = useState<User | null>(null);
 
+  const redirectTo = window.location.origin + "/p";
+
   useEffect(() => {
     async function fetchUser() {
       const supabase = await createClient();
@@ -23,6 +25,7 @@ export default function LoginPage() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "github",
+      options: { redirectTo }
     });
   }
 
@@ -30,6 +33,7 @@ export default function LoginPage() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: { redirectTo }
     });
   }
 
@@ -37,6 +41,7 @@ export default function LoginPage() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "discord",
+      options: { redirectTo }
     });
   }
 
@@ -44,6 +49,7 @@ export default function LoginPage() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "twitch",
+      options: { redirectTo }
     });
   }
 
