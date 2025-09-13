@@ -16,11 +16,7 @@ export default function BoosterData() {
   const [boosterRoles, setBoosterRoles] = useState<
     { name: string; value: boolean }[]
   >([]);
-  const [colors, setColors] = useState<{
-    booster: RoleColor;
-    mod: RoleColor;
-    developer: RoleColor;
-  } | null>(null);
+  const [colors, setColors] = useState<Record<string, RoleColor> | null>(null);
 
   const supabase = createClient();
 
@@ -40,6 +36,14 @@ export default function BoosterData() {
         { name: "Booster", value: json.isBooster },
         { name: "Mod", value: json.isMod },
         { name: "Developer", value: json.isDeveloper },
+        { name: "Genius", value: json.isGenius },
+        { name: "Pizza Party", value: json.isPizzaParty },
+        { name: "Owner", value: json.isOwner },
+        { name: "Admin", value: json.isAdmin },
+        { name: "OG", value: json.isOg },
+        { name: "True OG", value: json.isTrueOg },
+        { name: "W Rizz", value: json.isWRizz },
+        { name: "Chill Guy", value: json.isChillGuy },
       ]);
 
       if (res.ok) {
@@ -50,6 +54,8 @@ export default function BoosterData() {
   }, [supabase.auth]);
 
   function RoleName({ name, colors }: { name: string; colors: RoleColor }) {
+    if (!colors) return <>{name}</>;
+
     const { primary_color, secondary_color } = colors;
     const primary = `#${primary_color.toString(16).padStart(6, "0")}`;
     const secondary = `#${secondary_color.toString(16).padStart(6, "0")}`;
@@ -64,6 +70,23 @@ export default function BoosterData() {
         {name}
       </span>
     );
+  }
+
+  function getColorKey(roleName: string) {
+    const map: Record<string, string> = {
+      Booster: "booster",
+      Mod: "mod",
+      Developer: "developer",
+      Genius: "genius",
+      "Pizza Party": "pizzaParty",
+      Owner: "owner",
+      Admin: "admin",
+      OG: "og",
+      "True OG": "trueOg",
+      "W Rizz": "wRizz",
+      "Chill Guy": "chillGuy"
+    };
+    return map[roleName] ?? "";
   }
 
   return (
@@ -90,25 +113,25 @@ export default function BoosterData() {
             )}
           </p>
 
-          <p>
-            Special roles:{" "}
-            {colors &&
-              boosterRoles
-                .filter((role) => role.value)
-                .map((role, i, arr) => {
-                  const colorKey = role.name.toLowerCase() as
-                    | "booster"
-                    | "mod"
-                    | "developer";
+          {boosterRoles.filter((role) => role.value).length > 0 && (
+            <p>
+              Special roles:{" "}
+              {colors &&
+                boosterRoles
+                  .filter((role) => role.value)
+                  .map((role, i, arr) => {
+                    const colorKey = getColorKey(role.name);
+                    const roleColors = colors[colorKey] ?? undefined;
 
-                  return (
-                    <React.Fragment key={i}>
-                      <RoleName name={role.name} colors={colors[colorKey]} />
-                      {i !== arr.length - 1 && ", "}
-                    </React.Fragment>
-                  );
-                })}
-          </p>
+                    return (
+                      <React.Fragment key={i}>
+                        <RoleName name={role.name} colors={roleColors} />
+                        {i !== arr.length - 1 && ", "}
+                      </React.Fragment>
+                    );
+                  })}
+            </p>
+          )}
         </>
       ) : (
         <p className="text-lg">No booster data available at the moment.</p>

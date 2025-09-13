@@ -8,6 +8,21 @@ const ROLE_IDS = {
   developer: "1406629094623412244",
 };
 
+// just for colors
+const ROLE_IDS_EXTD = {
+  owner: "1337134692331290695",
+  booster: "1341154772006211666",
+  mod: "1409270467226894387",
+  developer: "1406629094623412244",
+  genius: "1343407711823597610",
+  pizzaParty: "1343315458081689622",
+  admin: "1337109489513533442",
+  og: "1339769949131902976",
+  trueOg: "1340119317060255795",
+  wRizz: "1340142743250272286",
+  chillGuy: "1345248092299071549"
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -38,6 +53,7 @@ export async function POST(req: Request) {
         },
       }
     );
+
     const dcData = await memberRes.json();
 
     const userRoles: string[] = dcData.roles ?? [];
@@ -45,6 +61,15 @@ export async function POST(req: Request) {
     const isBooster = userRoles.includes(ROLE_IDS.booster);
     const isMod = userRoles.includes(ROLE_IDS.mod);
     const isDeveloper = userRoles.includes(ROLE_IDS.developer);
+    const isGenius = userRoles.includes(ROLE_IDS_EXTD.genius)
+    const isPizzaParty = userRoles.includes(ROLE_IDS_EXTD.pizzaParty)
+    const isAdmin = userRoles.includes(ROLE_IDS_EXTD.admin)
+    const isOwner = userRoles.includes(ROLE_IDS_EXTD.owner)
+    const isOg = userRoles.includes(ROLE_IDS_EXTD.og)
+    const isTrueOg = userRoles.includes(ROLE_IDS_EXTD.trueOg)
+    const isWRizz = userRoles.includes(ROLE_IDS_EXTD.wRizz)
+    const isChillGuy = userRoles.includes(ROLE_IDS_EXTD.chillGuy)
+
     const elevated = isBooster || isMod || isDeveloper;
 
     const rolesRes = await fetch(
@@ -58,7 +83,7 @@ export async function POST(req: Request) {
     const allRoles = await rolesRes.json();
 
     const colors: Record<string, string | null> = {};
-    for (const [key, id] of Object.entries(ROLE_IDS)) {
+    for (const [key, id] of Object.entries(ROLE_IDS_EXTD)) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const role = allRoles.find((r: any) => r.id === id);
       colors[key] = role ? (role.colors) : null;
@@ -68,6 +93,14 @@ export async function POST(req: Request) {
       isBooster,
       isMod,
       isDeveloper,
+      isGenius,
+      isPizzaParty,
+      isAdmin,
+      isOwner,
+      isOg,
+      isTrueOg,
+      isWRizz,
+      isChillGuy,
       elevated,
       colors,
     });
